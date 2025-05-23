@@ -3,5 +3,10 @@
 import prisma from "./prisma";
 
 export async function getTechniques() {
-  return await prisma.technique.findMany()
+  try {
+    return await prisma.technique.findMany()
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to load technique data");
+  }
 }
