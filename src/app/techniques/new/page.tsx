@@ -1,10 +1,21 @@
 import Form from "next/form";
 
+import { createTechnique } from "@/lib/technique";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+
 export default function NewTechnique() {
+  async function handleSubmit(formData: FormData) {
+    "use server";
+    await createTechnique(formData);
+    revalidatePath("/techniques");
+    redirect("/techniques");
+  }
+
   return (
     <div>
       <h1>Add New Technique</h1>
-      <Form action={createTechnique}>
+      <Form action={handleSubmit}>
         <div>
           <label>Technique</label>
           <input
