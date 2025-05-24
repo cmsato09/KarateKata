@@ -28,4 +28,5 @@ enum TechniqueType {
   PUNCH
   KICK
   STRIKE
+  PREP
 }
