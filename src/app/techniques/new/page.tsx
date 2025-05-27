@@ -23,6 +23,7 @@ export default function NewTechnique() {
             id="tech_name"
             name="tech_name"
             placeholder="Add Technique Name"
+            required
           />
         </div>
 
@@ -33,6 +34,7 @@ export default function NewTechnique() {
             <option value="PUNCH">Punch</option>
             <option value="KICK">Kick</option>
             <option value="STRIKE">Strike</option>
+            <option value="PREP">Prep</option>
           </select>
         </div>
 
