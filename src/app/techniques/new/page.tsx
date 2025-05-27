@@ -17,7 +17,7 @@ export default function NewTechnique() {
       <h1>Add New Technique</h1>
       <Form action={handleSubmit}>
         <div>
-          <label>Technique</label>
+          <label htmlFor="tech_name">Technique</label>
           <input
             type="text"
             id="tech_name"
@@ -27,7 +27,7 @@ export default function NewTechnique() {
         </div>
 
         <div>
-          <label>Type</label>
+         <label htmlFor="tech_type">Type</label>
           <select name="tech_type" id="tech_type" required>
             <option value="BLOCK">Block</option>
             <option value="PUNCH">Punch</option>
@@ -37,17 +37,17 @@ export default function NewTechnique() {
         </div>
 
         <div>
-          <label>Name (Hiragana)</label>
+          <label htmlFor="name_hiragana">Name (Hiragana)</label>
           <input type="text" name="name_hiragana" id="name_hiragana" />
         </div>
 
         <div>
-          <label>Name (Kanji)</label>
+          <label htmlFor="name_kanji">Name (Kanji)</label>
           <input type="text" name="name_kanji" id="name_kanji" />
         </div>
 
         <div>
-          <label>Description</label>
+         <label htmlFor="tech_description">Description</label>
           <input type="text" name="tech_description" id="tech_description" />
         </div>
 
