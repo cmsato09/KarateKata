@@ -1,18 +1,16 @@
 "use client";
 
-import {
-  ColumnDef,
-} from "@tanstack/react-table"
-
+import { TechniqueType } from "@/generated/prisma";
+import { ColumnDef } from "@tanstack/react-table";
 
 export type Technique = {
-  id: number
-  name: string
-  type: string
-  name_hiragana: string | null
-  name_kanji: string | null
-  description: string | null
-}
+  id: number;
+  name: string;
+  type: TechniqueType;
+  name_hiragana: string | null;
+  name_kanji: string | null;
+  description: string | null;
+};
 
 export const columns: ColumnDef<Technique>[] = [
   {
@@ -36,4 +34,3 @@ export const columns: ColumnDef<Technique>[] = [
     header: "Description",
   },
 ];
-
