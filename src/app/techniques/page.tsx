@@ -1,4 +1,6 @@
 import { getTechniques } from "@/lib/technique";
+import { DataTable } from "@/components/DataTable";
+import { columns } from "./TechniqueTableColumns";
 
 export default async function TechniqueList() {
   const techniques = await getTechniques();
@@ -24,6 +26,8 @@ export default async function TechniqueList() {
           
         </tbody>
       </table>
+      <DataTable columns={columns} data={techniques}/>
+
     </div>
   );
 }
