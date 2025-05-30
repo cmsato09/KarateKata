@@ -14,9 +14,26 @@ export async function getTechniques() {
 
 export async function createTechnique(formData: FormData) {
   try {
+    const name = formData.get("tech_name");
+    if (!name || typeof name !== "string" || name.trim() === "") {
+      throw new Error("Technique name is required")
+    }
+
+    const normalizedName = name.trim().toLocaleLowerCase()
+
+    const existingTechnique = await prisma.technique.findUnique({
+      where: {
+        name: normalizedName,
+      },
+    })
+
+    if (existingTechnique) {
+      throw new Error(`Technique "${normalizedName}" already exists`);
+    }
+
     const technique = await prisma.technique.create({
       data: {
-        name: formData.get("tech_name") as string || "",
+        name: normalizedName,
         type: formData.get("tech_type") as TechniqueType,
         name_hiragana: formData.get("name_hiragana") as string || null,
         name_kanji: formData.get("name_kanji") as string || null,
@@ -27,6 +44,10 @@ export async function createTechnique(formData: FormData) {
     return technique;
   } catch (error) {
     console.error("Database error", error);
+    if (error instanceof Error) {
+      throw error; 
+    }
+    
     throw new Error(
       "Could not create new technique. Check inputs and try again."
     );
