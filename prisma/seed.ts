@@ -5,27 +5,27 @@ const prisma = new PrismaClient();
 const techniqueData: Prisma.TechniqueCreateInput[] = [
   {
     name: "Ageuke",
-    type: "block",
+    type: "BLOCK",
     name_hiragana: "あげうけ",
     name_kanji: "上げ受け",
   },
   {
     name: "Gedanbarai",
-    type: "block",
+    type: "BLOCK",
     name_hiragana: "げだんばらい",
     name_kanji: "下段払い",
     description: "Lower level sweep"
   },
   {
     name: "Uchiuke",
-    type: "block",
+    type: "BLOCK",
     name_hiragana: "うちうけ",
     name_kanji: "内受け",
     description: "Inside block"
   },
   {
     name: "Sotouke",
-    type: "block",
+    type: "BLOCK",
     name_hiragana: "そとうけ",
     name_kanji: "外受け",
   }

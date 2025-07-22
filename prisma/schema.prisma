@@ -17,8 +17,16 @@ datasource db {
 model Technique {
   id Int @id @default(autoincrement())
   name String @unique
-  type String
+  type TechniqueType
   name_hiragana String?
   name_kanji String?
   description String?
+}
+
+enum TechniqueType {
+  BLOCK
+  PUNCH
+  KICK
+  STRIKE
+  PREP
 }
