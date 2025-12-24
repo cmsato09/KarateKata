@@ -12,3 +12,20 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Technique {
+  id Int @id @default(autoincrement())
+  name String @unique
+  type TechniqueType
+  name_hiragana String?
+  name_kanji String?
+  description String?
+}
+
+enum TechniqueType {
+  BLOCK
+  PUNCH
+  KICK
+  STRIKE
+  PREP
+}
