@@ -2,6 +2,7 @@
 
 import prisma from "./prisma";
 import { TechniqueType } from "../app/generated/prisma/client";
+import { revalidatePath } from "next/cache";
 
 export async function getTechniques() {
   try {
@@ -45,11 +46,37 @@ export async function createTechnique(formData: FormData) {
   } catch (error) {
     console.error("Database error", error);
     if (error instanceof Error) {
-      throw error; 
+      throw error;
     }
-    
+
     throw new Error(
       "Could not create new technique. Check inputs and try again."
     );
+  }
+}
+
+// Form-specific wrapper action for useActionState
+export async function createTechniqueAction(
+  prevState: {
+    success: boolean;
+    error: string | null;
+    technique: any;
+  } | null,
+  formData: FormData
+) {
+  try {
+    const technique = await createTechnique(formData);
+    revalidatePath("/techniques");
+    return {
+      success: true,
+      error: null,
+      technique,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to create technique",
+      technique: null,
+    };
   }
 }
