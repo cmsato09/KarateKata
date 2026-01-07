@@ -3,6 +3,7 @@
 import prisma from "./prisma";
 import { revalidatePath } from "next/cache";
 import { validateTechniqueData } from "./validation";
+import type { Technique } from "../app/generated/prisma/client";
 
 export async function getTechniques() {
   try {
@@ -48,7 +49,7 @@ export async function createTechniqueAction(
   prevState: {
     success: boolean;
     error: string | null;
-    technique: any;
+    technique: Technique | null;
   } | null,
   formData: FormData
 ) {
