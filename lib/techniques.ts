@@ -1,8 +1,8 @@
 "use server";
 
 import prisma from "./prisma";
-import { TechniqueType } from "../app/generated/prisma/client";
 import { revalidatePath } from "next/cache";
+import { validateTechniqueData } from "./validation";
 
 export async function getTechniques() {
   try {
@@ -15,31 +15,20 @@ export async function getTechniques() {
 
 export async function createTechnique(formData: FormData) {
   try {
-    const name = formData.get("tech_name");
-    if (!name || typeof name !== "string" || name.trim() === "") {
-      throw new Error("Technique name is required")
-    }
-
-    const normalizedName = name.trim().toLocaleLowerCase()
+    const validatedData = validateTechniqueData(formData);
 
     const existingTechnique = await prisma.technique.findUnique({
       where: {
-        name: normalizedName,
+        name: validatedData.name,
       },
     })
 
     if (existingTechnique) {
-      throw new Error(`Technique "${normalizedName}" already exists`);
+      throw new Error(`Technique "${validatedData.name}" already exists`);
     }
 
     const technique = await prisma.technique.create({
-      data: {
-        name: normalizedName,
-        type: formData.get("tech_type") as TechniqueType,
-        name_hiragana: formData.get("name_hiragana") as string || null,
-        name_kanji: formData.get("name_kanji") as string || null,
-        description: formData.get("tech_description") as string || null,
-      },
+      data: validatedData,
     });
 
     return technique;
@@ -48,7 +37,6 @@ export async function createTechnique(formData: FormData) {
     if (error instanceof Error) {
       throw error;
     }
-
     throw new Error(
       "Could not create new technique. Check inputs and try again."
     );
