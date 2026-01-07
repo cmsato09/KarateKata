@@ -4,7 +4,7 @@ export interface ValidatedTechniqueData {
   name: string;
   type: TechniqueType;
   name_hiragana: string | null;
-  name_kanji: string | null
+  name_kanji: string | null;
   description: string | null;
 }
 
@@ -16,7 +16,7 @@ export function validateTechniqueData(formData: FormData): ValidatedTechniqueDat
   const name = nameValue.trim().toLowerCase();
 
   const typeValue = formData.get("tech_type");
-  if (!typeValue || typeof typeValue !== "string" || typeValue === "") {
+  if (!typeValue || typeof typeValue !== "string" || typeValue.trim() === "") {
     throw new Error("Technique type is required");
   }
   if (!Object.values(TechniqueType).includes(typeValue as TechniqueType)) {
