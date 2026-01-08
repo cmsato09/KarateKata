@@ -5,6 +5,10 @@ import { useActionState, useEffect } from "react";
 import { createTechniqueAction, updateTechniqueAction } from "@/lib/techniques";
 import { Technique } from "../generated/prisma/client";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 const TECHNIQUE_TYPES = ["BLOCK", "PUNCH", "KICK", "STRIKE", "PREP"] as const;
 
@@ -35,8 +39,8 @@ export function NewTechniqueForm({ technique, onCancel }: NewTechniqueFormProps)
 
       {/* Technique Name */}
       <div>
-        <label htmlFor="tech_name">Technique</label>
-          <input
+        <Label htmlFor="tech_name">Technique</Label>
+          <Input
             type="text"
             id="tech_name"
             name="tech_name"
@@ -49,27 +53,30 @@ export function NewTechniqueForm({ technique, onCancel }: NewTechniqueFormProps)
 
       {/* Type */}
       <div>
-        <label htmlFor="tech_type">Type</label>
-        <select
-          id="tech_type"
+        <Label htmlFor="tech_type">Type</Label>
+        <Select
           name="tech_type"
           defaultValue={technique?.type || ""}
           required
           disabled={isPending}
         >
-          <option value="">Select type</option>
-          {Object.values(TECHNIQUE_TYPES).map((type) => (
-            <option key={type} value={type}>
-              {type}
-            </option>
-          ))}
-        </select>
+          <SelectTrigger>
+            <SelectValue placeholder="Select a type" />
+          </SelectTrigger>
+          <SelectContent>
+            {Object.values(TECHNIQUE_TYPES).map((type) => (
+              <SelectItem key={type} value={type}>
+                {type}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Hiragana */}
       <div>
-        <label htmlFor="name_hiragana">Name (Hiragana)</label>
-        <input
+        <Label htmlFor="name_hiragana">Name (Hiragana)</Label>
+        <Input
           type="text"
           name="name_hiragana"
           id="name_hiragana"
@@ -80,8 +87,8 @@ export function NewTechniqueForm({ technique, onCancel }: NewTechniqueFormProps)
 
       {/* Kanji */}
       <div>
-        <label htmlFor="name_kanji">Name (Kanji)</label>
-        <input
+        <Label htmlFor="name_kanji">Name (Kanji)</Label>
+        <Input
           type="text"
           name="name_kanji"
           id="name_kanji"
@@ -92,8 +99,8 @@ export function NewTechniqueForm({ technique, onCancel }: NewTechniqueFormProps)
 
       {/* Description */}
       <div>
-        <label htmlFor="tech_description">Description</label>
-        <textarea
+        <Label htmlFor="tech_description">Description</Label>
+        <Textarea
           name="tech_description"
           id="tech_description"
           rows={3}
@@ -116,12 +123,12 @@ export function NewTechniqueForm({ technique, onCancel }: NewTechniqueFormProps)
 
       {/* Submit and Cancel buttons */}
       <div className="flex gap-2">
-        <button
+        <Button
           type="submit"
           disabled={isPending}
         >
           {isEditing ? "Update Technique" : "Add Technique"}
-        </button>
+        </Button>
         {isEditing && onCancel && (
           <Button
             type="button"
