@@ -7,7 +7,9 @@ import type { Technique } from "../app/generated/prisma/client";
 
 export async function getTechniques() {
   try {
-    return await prisma.technique.findMany();
+    return await prisma.technique.findMany({
+      orderBy: { id: 'asc' }
+    });
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to load technique data");
