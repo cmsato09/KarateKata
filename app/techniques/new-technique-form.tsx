@@ -31,14 +31,14 @@ export function NewTechniqueForm({ technique, onCancel }: NewTechniqueFormProps)
     }
   }, [state?.success, onCancel]);
   return (
-    <Form action={formAction}>
+    <Form action={formAction} className="space-y-4">
       {/* Hidden ID field for updates */}
       {isEditing && technique && (
         <input type="hidden" name="id" value={technique.id} />
       )}
 
       {/* Technique Name */}
-      <div>
+      <div className="space-y-2">
         <Label htmlFor="tech_name">Technique</Label>
           <Input
             type="text"
@@ -52,7 +52,7 @@ export function NewTechniqueForm({ technique, onCancel }: NewTechniqueFormProps)
       </div>
 
       {/* Type */}
-      <div>
+      <div className="space-y-2">
         <Label htmlFor="tech_type">Type</Label>
         <Select
           name="tech_type"
@@ -74,7 +74,7 @@ export function NewTechniqueForm({ technique, onCancel }: NewTechniqueFormProps)
       </div>
 
       {/* Hiragana */}
-      <div>
+      <div className="space-y-2">
         <Label htmlFor="name_hiragana">Name (Hiragana)</Label>
         <Input
           type="text"
@@ -86,7 +86,7 @@ export function NewTechniqueForm({ technique, onCancel }: NewTechniqueFormProps)
       </div>
 
       {/* Kanji */}
-      <div>
+      <div className="space-y-2">
         <Label htmlFor="name_kanji">Name (Kanji)</Label>
         <Input
           type="text"
@@ -98,7 +98,7 @@ export function NewTechniqueForm({ technique, onCancel }: NewTechniqueFormProps)
       </div>
 
       {/* Description */}
-      <div>
+      <div className="space-y-2">
         <Label htmlFor="tech_description">Description</Label>
         <Textarea
           name="tech_description"
