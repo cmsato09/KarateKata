@@ -117,7 +117,7 @@ export function NewTechniqueForm({ technique, onCancel }: NewTechniqueFormProps)
       )}
       {state?.success && (
         <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded">
-          Technique {isEditing ? "updated" : "created"} successfully!
+          Technique {state.operation === 'update' ? "updated" : "created"} successfully!
         </div>
       )}
 

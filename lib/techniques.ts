@@ -52,6 +52,7 @@ export async function createTechniqueAction(
     success: boolean;
     error: string | null;
     technique: Technique | null;
+    operation?: string;
   } | null,
   formData: FormData
 ) {
@@ -62,12 +63,14 @@ export async function createTechniqueAction(
       success: true,
       error: null,
       technique,
+      operation: 'create',
     };
   } catch (error) {
     return {
       success: false,
       error: error instanceof Error ? error.message : "Failed to create technique",
       technique: null,
+      operation: 'create',
     };
   }
 }
@@ -119,6 +122,7 @@ export async function updateTechniqueAction(
     success: boolean;
     error: string | null;
     technique: Technique | null;
+    operation?: string;
   } | null,
   formData: FormData
 ) {
@@ -141,12 +145,14 @@ export async function updateTechniqueAction(
       success: true,
       error: null,
       technique,
+      operation: 'update',
     };
   } catch (error) {
     return {
       success: false,
       error: error instanceof Error ? error.message : "Failed to update technique",
       technique: null,
+      operation: 'update',
     };
   }
 }
