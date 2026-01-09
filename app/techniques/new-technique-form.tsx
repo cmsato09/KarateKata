@@ -31,7 +31,7 @@ export function NewTechniqueForm({ technique, onCancel }: NewTechniqueFormProps)
     }
   }, [state?.success, onCancel]);
   return (
-    <Form action={formAction} className="space-y-4">
+    <Form key={technique?.id ?? 'new'} action={formAction} className="space-y-4">
       {/* Hidden ID field for updates */}
       {isEditing && technique && (
         <input type="hidden" name="id" value={technique.id} />
