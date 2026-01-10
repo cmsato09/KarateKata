@@ -156,3 +156,59 @@ export async function updateTechniqueAction(
     };
   }
 }
+
+export async function deleteTechnique(id: number) {
+  try {
+    const deletedTechnique = await prisma.technique.delete({
+      where: { id },
+    })
+
+    return deletedTechnique;
+
+  } catch (error) {
+    console.error("Database error", error);
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Could not delete technique. Try again.");
+  }
+}
+
+export async function deleteTechniqueAction(
+  prevState: {
+    success: boolean;
+    error: string | null;
+    technique: Technique | null;
+    operation?: string;
+  } | null,
+  formData: FormData
+) {
+  try {
+    const idValue = formData.get("id");
+
+    if (!idValue || typeof idValue !== "string") {
+      throw new Error("Technique ID is required");
+    }
+
+    const id = parseInt(idValue, 10);
+
+    if (isNaN(id)) {
+      throw new Error("Invalid technique ID");
+    }
+    const technique = await deleteTechnique(id);
+    revalidatePath("/techniques");
+    return {
+      success: true,
+      error: null,
+      technique,
+      operation: 'delete',
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to delete technique",
+      technique: null,
+      operation: 'delete',
+    };
+  }
+}
