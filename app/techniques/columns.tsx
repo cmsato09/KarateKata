@@ -5,7 +5,8 @@ import { Technique } from "../generated/prisma/client";
 import { Button } from "@/components/ui/button";
 
 export const createColumns = (
-  onEdit: (technique: Technique) => void
+  onEdit: (technique: Technique) => void,
+  onDelete: (technique: Technique) => void
 ): ColumnDef<Technique>[] => [
   {
     accessorKey: "name",
@@ -33,13 +34,22 @@ export const createColumns = (
     cell: ({ row }) => {
       const technique = row.original;
       return (
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => onEdit(technique)}
-        >
-          Edit
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onEdit(technique)}
+          >
+            Edit
+          </Button>
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={() => onDelete(technique)}
+          >
+            Delete
+          </Button>
+        </div>
       );
     },
   },

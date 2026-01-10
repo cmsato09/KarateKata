@@ -27,6 +27,11 @@ export function TechniquesList({ techniques }: TechniquesListProps) {
     setIsOpen(true);
   };
 
+  const handleDelete = (technique: Technique) => {
+    // Implement delete functionality here
+    console.log("Delete technique:", technique);
+  };
+
   const handleCancel = () => {
     setSelectedTechnique(null);
   };
@@ -39,7 +44,7 @@ export function TechniquesList({ techniques }: TechniquesListProps) {
     }
   }, [isOpen]);
 
-  const columns = createColumns(handleEdit);
+  const columns = createColumns(handleEdit, handleDelete);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center -mt-16">
