@@ -5,12 +5,23 @@ import { Technique } from "../generated/prisma/client";
 import { createColumns } from "./columns";
 import { DataTable } from "./data-table";
 import { NewTechniqueForm } from "./new-technique-form";
+import { deleteTechnique } from "@/lib/techniques";
 import { Button } from "@/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { ChevronDown } from "lucide-react";
 
 interface TechniquesListProps {
@@ -20,6 +31,7 @@ interface TechniquesListProps {
 export function TechniquesList({ techniques }: TechniquesListProps) {
   const [selectedTechnique, setSelectedTechnique] = useState<Technique | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [techniqueToDelete, setTechniqueToDelete] = useState<Technique | null>(null);
   const collapsibleRef = useRef<HTMLDivElement>(null);
 
   const handleEdit = (technique: Technique) => {
@@ -28,8 +40,18 @@ export function TechniquesList({ techniques }: TechniquesListProps) {
   };
 
   const handleDelete = (technique: Technique) => {
-    // Implement delete functionality here
-    console.log("Delete technique:", technique);
+    setTechniqueToDelete(technique);
+  };
+
+  const confirmDelete = async () => {
+    if (!techniqueToDelete) return;
+
+    try {
+      await deleteTechnique(techniqueToDelete.id);
+      setTechniqueToDelete(null);
+    } catch (error) {
+      console.error("Failed to delete:", error);
+    }
   };
 
   const handleCancel = () => {
@@ -70,6 +92,21 @@ export function TechniquesList({ techniques }: TechniquesListProps) {
         </div>
         <DataTable columns={columns} data={techniques} />
       </div>
+
+      <AlertDialog open={!!techniqueToDelete} onOpenChange={(open) => !open && setTechniqueToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will permanently delete the technique &quot;{techniqueToDelete?.name}&quot;. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete}>Delete</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
