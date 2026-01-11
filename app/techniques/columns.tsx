@@ -2,8 +2,12 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Technique } from "../generated/prisma/client";
+import { Button } from "@/components/ui/button";
 
-export const columns: ColumnDef<Technique>[] = [
+export const createColumns = (
+  onEdit: (technique: Technique) => void,
+  onDelete: (technique: Technique) => void
+): ColumnDef<Technique>[] => [
   {
     accessorKey: "name",
     header: "Name",
@@ -23,5 +27,30 @@ export const columns: ColumnDef<Technique>[] = [
   {
     accessorKey: "description",
     header: "Description",
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => {
+      const technique = row.original;
+      return (
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onEdit(technique)}
+          >
+            Edit
+          </Button>
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={() => onDelete(technique)}
+          >
+            Delete
+          </Button>
+        </div>
+      );
+    },
   },
 ];
