@@ -1,9 +1,9 @@
 "use server";
 
-import prisma from "./prisma";
+import prisma from "../prisma";
 import { revalidatePath } from "next/cache";
-import { validateTechniqueData } from "./validation";
-import type { Technique } from "../app/generated/prisma/client";
+import { validateTechniqueData } from "../validation/techniques";
+import type { Technique } from "../../app/generated/prisma/client";
 
 export async function getTechniques() {
   try {
