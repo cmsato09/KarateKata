@@ -15,11 +15,14 @@ datasource db {
 
 model Kata {
   id Int @id @default(autoincrement())
-  name String @unique
+  style String
+  name String
   series String
   name_hiragana String?
   name_kanji String?
   moves Move[]
+
+  @@unique([style, name])
 }
 
 model Move {
