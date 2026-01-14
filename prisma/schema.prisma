@@ -13,6 +13,50 @@ datasource db {
   provider = "postgresql"
 }
 
+model Kata {
+  id Int @id @default(autoincrement())
+  style String
+  name String
+  series String
+  name_hiragana String?
+  name_kanji String?
+  moves Move[]
+
+  @@unique([style, name])
+}
+
+model Move {
+  id Int @id @default(autoincrement())
+  kata_id Int
+  kata Kata @relation(fields: [kata_id], references: [id], onDelete: Cascade)
+  move_number Int
+  sequence Int
+  timing MoveTiming
+  stance_id Int
+  stance Stance @relation(fields: [stance_id], references: [id])
+  technique_id Int
+  technique Technique @relation(fields: [technique_id], references: [id])
+  direction Direction
+  lead_foot LeadFoot
+  hip HipPosition
+  active_side ActiveSide
+  speed Speed
+  snap_thrust SnapThrust
+  level TechniqueLevel
+  interm_move Boolean
+  kiai Boolean
+
+  @@unique([kata_id, move_number, sequence])
+}
+
+model Stance {
+  id Int @id @default(autoincrement())
+  name String @unique
+  name_hiragana String?
+  name_kanji String?
+  moves Move[]
+}
+
 model Technique {
   id Int @id @default(autoincrement())
   name String @unique
@@ -20,6 +64,7 @@ model Technique {
   name_hiragana String?
   name_kanji String?
   description String?
+  moves Move[]
 }
 
 enum TechniqueType {
@@ -28,4 +73,63 @@ enum TechniqueType {
   KICK
   STRIKE
   PREP
+}
+
+enum MoveTiming {
+  SIMULTANEOUS
+  SEQUENTIAL
+}
+
+enum Direction {
+  N    // North
+  S    // South
+  E    // East
+  W    // West
+  NE   // Northeast
+  NW   // Northwest
+  SE   // Southeast
+  SW   // Southwest
+}
+
+enum LeadFoot {
+  LEFT
+  RIGHT
+}
+
+enum HipPosition {
+  HANMI
+  SHOMEN
+  GYAKUHANMI
+}
+
+enum ActiveSide {
+  LEFT
+  RIGHT
+  BOTH
+  NEITHER
+}
+
+enum Speed {
+  FAST
+  SLOW
+  FAST_SLOW
+  SLOW_FAST
+}
+
+enum SnapThrust {
+  SNAP
+  THRUST
+}
+
+enum TechniqueLevel {
+  GEDAN   // Lower level
+  CHUDAN  // Middle level
+  JODAN   // Upper level
+  GEDAN_JODAN // Both lower and upper level
+}
+
+enum Breadth {
+  IN 
+  OUT 
+  IN_OUT
 }
