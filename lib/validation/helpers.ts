@@ -5,7 +5,7 @@
 export function getRequiredStringField(
     formData: FormData,
     fieldName: string,
-    errorMessage: string
+    errorMessage?: string
 ): string {
     const value = formData.get(fieldName);
     if (!value || typeof value !== "string" || value.trim() === "") {
@@ -14,4 +14,13 @@ export function getRequiredStringField(
     return value.trim();
 }
 
-
+export function getOptionalStringField(
+  formData: FormData,
+  fieldName: string,
+): string | null {
+  const value = formData.get(fieldName);
+  if (!value || typeof value !== "string" || value.trim() === "") {
+    return null;
+  }
+  return value.trim();
+}
