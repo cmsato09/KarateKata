@@ -1,10 +1,12 @@
 "use client";
 
+import { useActionState, useEffect } from "react";
 import Form from "next/form";
 import { Stance } from "@/app/generated/prisma/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { createStanceAction } from "@/lib/actions/stances";
 import { STANCE_FORM_FIELDS } from "@/lib/validation/stances";
 
 interface StanceFormProps {
@@ -15,8 +17,20 @@ interface StanceFormProps {
 export function StanceForm({ stance, onCancel }: StanceFormProps) {
   const isEditing = !!stance;
 
+  const [state, formAction, isPending] = useActionState(
+    createStanceAction,
+    null
+  );
+
+  // Reset form and call onCancel when submission is successful
+  useEffect(() => {
+    if (state?.success && onCancel) {
+      onCancel();
+    }
+  }, [state?.success, onCancel]);
+
   return (
-    <Form key={stance?.id ?? 'new'} action={() => {}} className="space-y-4">
+    <Form key={stance?.id ?? 'new'} action={formAction} className="space-y-4">
       {/* Hidden ID field for updates */}
       {isEditing && stance && (
         <input type="hidden" name="id" value={stance.id} />
@@ -32,6 +46,7 @@ export function StanceForm({ stance, onCancel }: StanceFormProps) {
           placeholder="Add Stance Name"
           defaultValue={stance?.name || ""}
           required
+          disabled={isPending}
         />
       </div>
 
@@ -43,6 +58,7 @@ export function StanceForm({ stance, onCancel }: StanceFormProps) {
           name={STANCE_FORM_FIELDS.HIRAGANA}
           id={STANCE_FORM_FIELDS.HIRAGANA}
           defaultValue={stance?.name_hiragana || ""}
+          disabled={isPending}
         />
       </div>
 
@@ -54,12 +70,13 @@ export function StanceForm({ stance, onCancel }: StanceFormProps) {
           name={STANCE_FORM_FIELDS.KANJI}
           id={STANCE_FORM_FIELDS.KANJI}
           defaultValue={stance?.name_kanji || ""}
+          disabled={isPending}
         />
       </div>
 
       {/* Submit and Cancel buttons */}
       <div className="flex gap-2">
-        <Button type="submit">
+        <Button type="submit" disabled={isPending}>
           {isEditing ? "Update Stance" : "Add Stance"}
         </Button>
         {isEditing && onCancel && (
@@ -67,6 +84,7 @@ export function StanceForm({ stance, onCancel }: StanceFormProps) {
             type="button"
             variant="outline"
             onClick={onCancel}
+            disabled={isPending}
           >
             Cancel
           </Button>
