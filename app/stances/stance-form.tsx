@@ -74,6 +74,18 @@ export function StanceForm({ stance, onCancel }: StanceFormProps) {
         />
       </div>
 
+      {/* Feedback Messages */}
+      {state?.error && (
+        <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+          {state.error}
+        </div>
+      )}
+      {state?.success && (
+        <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded">
+          Stance {state.operation === 'update' ? "updated" : "created"} successfully!
+        </div>
+      )}
+
       {/* Submit and Cancel buttons */}
       <div className="flex gap-2">
         <Button type="submit" disabled={isPending}>
