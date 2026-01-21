@@ -1,10 +1,11 @@
 "use client";
 
 import Form from "next/form";
-import { Stance } from "../generated/prisma/client";
+import { Stance } from "@/app/generated/prisma/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { STANCE_FORM_FIELDS } from "@/lib/validation/stances";
 
 interface StanceFormProps {
   stance?: Stance | null;
@@ -23,11 +24,11 @@ export function StanceForm({ stance, onCancel }: StanceFormProps) {
 
       {/* Stance Name */}
       <div className="space-y-2">
-        <Label htmlFor="stance_name">Stance Name</Label>
+        <Label htmlFor={STANCE_FORM_FIELDS.NAME}>Stance Name</Label>
         <Input
           type="text"
-          id="stance_name"
-          name="stance_name"
+          id={STANCE_FORM_FIELDS.NAME}
+          name={STANCE_FORM_FIELDS.NAME}
           placeholder="Add Stance Name"
           defaultValue={stance?.name || ""}
           required
@@ -36,22 +37,22 @@ export function StanceForm({ stance, onCancel }: StanceFormProps) {
 
       {/* Hiragana */}
       <div className="space-y-2">
-        <Label htmlFor="name_hiragana">Name (Hiragana)</Label>
+        <Label htmlFor={STANCE_FORM_FIELDS.HIRAGANA}>Name (Hiragana)</Label>
         <Input
           type="text"
-          name="name_hiragana"
-          id="name_hiragana"
+          name={STANCE_FORM_FIELDS.HIRAGANA}
+          id={STANCE_FORM_FIELDS.HIRAGANA}
           defaultValue={stance?.name_hiragana || ""}
         />
       </div>
 
       {/* Kanji */}
       <div className="space-y-2">
-        <Label htmlFor="name_kanji">Name (Kanji)</Label>
+        <Label htmlFor={STANCE_FORM_FIELDS.KANJI}>Name (Kanji)</Label>
         <Input
           type="text"
-          name="name_kanji"
-          id="name_kanji"
+          name={STANCE_FORM_FIELDS.KANJI}
+          id={STANCE_FORM_FIELDS.KANJI}
           defaultValue={stance?.name_kanji || ""}
         />
       </div>
