@@ -1,7 +1,9 @@
 "use server";
 
-import prisma from "../prisma";
-import { validateStanceData } from "../validation/stances";
+import { revalidatePath } from "next/cache";
+import type { Stance } from "@/app/generated/prisma/client";
+import prisma from "@/lib/prisma";
+import { validateStanceData } from "@/lib/validation/stances";
 
 export async function getStances() {
   try {
@@ -39,5 +41,33 @@ export async function createStance(formData: FormData) {
       throw error;
     }
     throw new Error("Could not create new stance. Check inputs and try again.");
+  }
+}
+
+export async function createStanceAction(
+  prevState: {
+    success: boolean;
+    error: string | null;
+    stance: Stance | null;
+    operation?: string;
+  } | null,
+  formData: FormData
+) {
+  try {
+    const stance = await createStance(formData);
+    revalidatePath("/stances");
+    return {
+      success: true,
+      error: null,
+      stance,
+      operation: "create",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to create stance",
+      stance: null,
+      operation: "create",
+    };
   }
 }
