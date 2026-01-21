@@ -17,8 +17,8 @@ export interface ValidatedStanceData {
 
 export const STANCE_FORM_FIELDS = {
   NAME: "stance_name",
-  HIRAGANA: "name_hiragana",
-  KANJI: "name_kanji",
+  HIRAGANA: "stance_name_hiragana",
+  KANJI: "stance_name_kanji",
 } as const;
 
 export function validateStanceData(formData: FormData): ValidatedStanceData {
