@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Technique } from "../generated/prisma/client";
 import { createColumns } from "./columns";
-import { DataTable } from "./data-table";
+import { DataTable } from "@/components/data-table";
 import { NewTechniqueForm } from "./new-technique-form";
 import { deleteTechnique } from "@/lib/actions/techniques";
 import { Button } from "@/components/ui/button";
