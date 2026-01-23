@@ -2,7 +2,7 @@
 
 import { DataTable } from "@/components/data-table";
 import { Stance } from "../generated/prisma/client";
-import { columns } from "./columns";
+import { createColumns } from "./columns";
 import { StanceForm } from "./stance-form";
 
 interface StancesListProps {
@@ -10,6 +10,9 @@ interface StancesListProps {
 }
 
 export function StancesList({ stances }: StancesListProps) {
+
+  const columns = createColumns(() => {}, () => {});
+  
   return (
     <div className="min-h-screen flex flex-col items-center justify-center -mt-16">
       <h1 className="text-4xl font-bold mb-8">Stances</h1>
