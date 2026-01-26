@@ -2,7 +2,7 @@
 
 import Form from "next/form";
 import { useActionState, useEffect } from "react";
-import { createTechniqueAction, updateTechniqueAction } from "@/lib/techniques";
+import { createTechniqueAction, updateTechniqueAction } from "@/lib/actions/techniques";
 import { Technique } from "../generated/prisma/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

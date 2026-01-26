@@ -1,4 +1,4 @@
-import { getTechniques } from "../../lib/techniques";
+import { getTechniques } from "../../lib/actions/techniques";
 import { TechniquesList } from "./techniques-list";
 
 export default async function TechniqueList() {

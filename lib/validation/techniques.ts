@@ -1,4 +1,4 @@
-import { TechniqueType } from "../app/generated/prisma/client";
+import { TechniqueType } from "../../app/generated/prisma/client";
 
 export interface ValidatedTechniqueData {
   name: string;
