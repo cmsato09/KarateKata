@@ -6,7 +6,7 @@ import { Stance } from "@/app/generated/prisma/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createStanceAction } from "@/lib/actions/stances";
+import { createStanceAction, updateStanceAction } from "@/lib/actions/stances";
 import { STANCE_FORM_FIELDS } from "@/lib/validation/stances";
 
 interface StanceFormProps {
@@ -18,8 +18,8 @@ export function StanceForm({ stance, onCancel }: StanceFormProps) {
   const isEditing = !!stance;
 
   const [state, formAction, isPending] = useActionState(
-    createStanceAction,
-    null
+    isEditing ? updateStanceAction : createStanceAction,
+    null,
   );
 
   // Reset form and call onCancel when submission is successful
@@ -30,7 +30,7 @@ export function StanceForm({ stance, onCancel }: StanceFormProps) {
   }, [state?.success, onCancel]);
 
   return (
-    <Form key={stance?.id ?? 'new'} action={formAction} className="space-y-4">
+    <Form key={stance?.id ?? "new"} action={formAction} className="space-y-4">
       {/* Hidden ID field for updates */}
       {isEditing && stance && (
         <input type="hidden" name="id" value={stance.id} />
