@@ -147,3 +147,19 @@ export async function updateStanceAction(
     };
   }
 }
+
+export async function deleteStance(id: number) {
+  try {
+    const deletedStance = await prisma.stance.delete({
+      where: { id },
+    });
+    revalidatePath("/stances");
+    return deletedStance;
+  } catch (error) {
+    console.error("Database error", error);
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Could not delete stance. Try again later.");
+  }
+}
