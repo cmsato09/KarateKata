@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect } from "react";
 import Form from "next/form";
+import { toast } from "sonner";
 import { Stance } from "@/app/generated/prisma/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,10 +25,18 @@ export function StanceForm({ stance, onCancel }: StanceFormProps) {
 
   // Reset form and call onCancel when submission is successful
   useEffect(() => {
-    if (state?.success && onCancel) {
-      onCancel();
+    if (state?.success) {
+      toast.success(
+        `Stance ${state.operation === "update" ? "updated" : "created"} successfully!`,
+      );
+
+      if (state.operation === "update" && onCancel) {
+        onCancel();
+      }
+    } else if (state?.error) {
+      toast.error(state.error);
     }
-  }, [state?.success, onCancel]);
+  }, [state?.success, state?.error, state?.operation, onCancel]);
 
   return (
     <Form key={stance?.id ?? "new"} action={formAction} className="space-y-4">
@@ -73,18 +82,6 @@ export function StanceForm({ stance, onCancel }: StanceFormProps) {
           disabled={isPending}
         />
       </div>
-
-      {/* Feedback Messages */}
-      {state?.error && (
-        <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-          {state.error}
-        </div>
-      )}
-      {state?.success && (
-        <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded">
-          Stance {state.operation === 'update' ? "updated" : "created"} successfully!
-        </div>
-      )}
 
       {/* Submit and Cancel buttons */}
       <div className="flex gap-2">
