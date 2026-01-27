@@ -2,6 +2,7 @@
 
 import Form from "next/form";
 import { useActionState, useEffect } from "react";
+import { toast } from "sonner";
 import { createTechniqueAction, updateTechniqueAction } from "@/lib/actions/techniques";
 import { Technique } from "../generated/prisma/client";
 import { Button } from "@/components/ui/button";
@@ -26,10 +27,19 @@ export function NewTechniqueForm({ technique, onCancel }: NewTechniqueFormProps)
 
   // Reset form and call onCancel when submission is successful
   useEffect(() => {
-    if (state?.success && onCancel) {
-      onCancel();
+    if (state?.success) {
+      toast.success(
+        `Technique ${state.operation === "update" ? "updated" : "created"} successfully!`
+      );
+    
+      if (state.operation === "update" && onCancel) {
+        onCancel();
+      } else if (state?.error) {
+        toast.error(state.error);
+      }
     }
-  }, [state?.success, onCancel]);
+  }, [state?.success, state?.error, state?.operation, onCancel]);
+  
   return (
     <Form key={technique?.id ?? 'new'} action={formAction} className="space-y-4">
       {/* Hidden ID field for updates */}
@@ -108,18 +118,6 @@ export function NewTechniqueForm({ technique, onCancel }: NewTechniqueFormProps)
           disabled={isPending}
         />
       </div>
-
-      {/* Feedback Messages */}
-      {state?.error && (
-        <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-          {state.error}
-        </div>
-      )}
-      {state?.success && (
-        <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded">
-          Technique {state.operation === 'update' ? "updated" : "created"} successfully!
-        </div>
-      )}
 
       {/* Submit and Cancel buttons */}
       <div className="flex gap-2">
