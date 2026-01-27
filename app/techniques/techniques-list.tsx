@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Technique } from "../generated/prisma/client";
 import { createColumns } from "./columns";
 import { DataTable } from "@/components/data-table";
@@ -54,9 +54,10 @@ export function TechniquesList({ techniques }: TechniquesListProps) {
     }
   };
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     setSelectedTechnique(null);
-  };
+    setIsOpen(false);
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
