@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Technique } from "../generated/prisma/client";
+import type { Technique } from "@/app/generated/prisma/client";
 import { Button } from "@/components/ui/button";
 
 export const createColumns = (

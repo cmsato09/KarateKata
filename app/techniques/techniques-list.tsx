@@ -1,17 +1,9 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { Technique } from "../generated/prisma/client";
-import { createColumns } from "./columns";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { ChevronDown } from "lucide-react";
+import type { Technique } from "@/app/generated/prisma/client";
 import { DataTable } from "@/components/data-table";
-import { NewTechniqueForm } from "./new-technique-form";
-import { deleteTechnique } from "@/lib/actions/techniques";
-import { Button } from "@/components/ui/button";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,7 +14,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { deleteTechnique } from "@/lib/actions/techniques";
+import { createColumns } from "./columns";
+import { NewTechniqueForm } from "./new-technique-form";
 
 interface TechniquesListProps {
   techniques: Technique[];
@@ -54,9 +54,10 @@ export function TechniquesList({ techniques }: TechniquesListProps) {
     }
   };
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     setSelectedTechnique(null);
-  };
+    setIsOpen(false);
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
