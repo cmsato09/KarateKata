@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { ChevronDown } from "lucide-react";
-import { Stance } from "@/app/generated/prisma/client";
+import type { Stance } from "@/app/generated/prisma/client";
 import { DataTable } from "@/components/data-table";
 import {
   AlertDialog,

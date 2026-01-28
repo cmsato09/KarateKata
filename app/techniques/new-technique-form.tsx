@@ -4,7 +4,7 @@ import Form from "next/form";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 import { createTechniqueAction, updateTechniqueAction } from "@/lib/actions/techniques";
-import { Technique } from "../generated/prisma/client";
+import type { Technique } from "@/app/generated/prisma/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

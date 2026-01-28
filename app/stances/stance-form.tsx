@@ -3,7 +3,7 @@
 import { useActionState, useEffect } from "react";
 import Form from "next/form";
 import { toast } from "sonner";
-import { Stance } from "@/app/generated/prisma/client";
+import type { Stance } from "@/app/generated/prisma/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
