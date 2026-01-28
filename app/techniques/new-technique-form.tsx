@@ -34,9 +34,9 @@ export function NewTechniqueForm({ technique, onCancel }: NewTechniqueFormProps)
     
       if (state.operation === "update" && onCancel) {
         onCancel();
-      } else if (state?.error) {
+      } 
+    } else if (state?.error) {
         toast.error(state.error);
-      }
     }
   }, [state?.success, state?.error, state?.operation, onCancel]);
   
