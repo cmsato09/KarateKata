@@ -155,3 +155,19 @@ export async function updateKataAction(
     };
   }
 }
+
+export async function deleteKata(id: number) {
+  try {
+    const deletedKata = await prisma.kata.delete({
+      where: { id },
+    });
+    revalidatePath("/katas");
+    return deletedKata;
+  } catch (error) {
+    console.error("Database error", error);
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Could not delete kata. Try again later.");
+  }
+}
