@@ -1,10 +1,11 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home } from "lucide-react";
+import { Home, Link as LinkIcon } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -58,6 +59,22 @@ export function AppSidebar() {
           ))}
         </SidebarMenu>
       </SidebarContent>
+      <SidebarFooter>
+        <div className="flex flex-col gap-2 px-2 py-2">
+          <div className="flex items-center justify-between text-xs text-sidebar-foreground/70">
+            <span>Version 0.1.0</span>
+            <a
+              href="https://github.com/cmsato09/KarateKata"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 hover:text-sidebar-foreground transition-colors"
+            >
+              <LinkIcon className="size-4" />
+              <span>GitHub</span>
+            </a>
+          </div>
+        </div>
+      </SidebarFooter>
     </Sidebar>
   );
 }
