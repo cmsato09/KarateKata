@@ -70,7 +70,7 @@ export function KataList({ katas }: KataListProps) {
   const columns = createColumns(handleEdit, handleDelete);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center -mt-16">
+    <div className="flex flex-col items-center">
       <h1 className="text-4xl font-bold mb-8">Katas</h1>
       <div className="w-full max-w-4xl px-4">
         <div ref={collapsibleRef}>
