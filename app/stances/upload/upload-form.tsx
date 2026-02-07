@@ -4,16 +4,15 @@ import { useState } from "react";
 import Papa from "papaparse";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-interface StanceCsvRow {
-  name: string;
-  hiragana: string;
-  kanji: string;
-}
+import {
+  validateStanceCSVRow,
+  type StanceCsvRow,
+  type ValidatedRow,
+} from "@/lib/validation/csv-stances";
 
 export function StanceUploadForm() {
   const [file, setFile] = useState<File | null>(null);
-  const [parsedData, setParsedData] = useState<StanceCsvRow[] | null>(null);
+  const [validatedParsedRows, setValidatedParsedRows] = useState<ValidatedRow[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -33,7 +32,20 @@ export function StanceUploadForm() {
       transform: (value) => value.trim(),
       complete: (results) => {
         console.log("Parsed CSV data:", results.data);
-        setParsedData(results.data);
+        const expectedHeaders = ["stance name", "hiragana", "kanji"];
+        const actualHeaders =
+          results.meta.fields?.map((h) => h.trim().toLowerCase()) || [];
+        if (JSON.stringify(actualHeaders) !== JSON.stringify(expectedHeaders)) {
+          setError(
+            `Invalid CSV headers. Expected: ${expectedHeaders.join(", ")}`,
+          );
+          return;
+        }
+
+        const validatedData = results.data.map((row, index) =>
+          validateStanceCSVRow(row, index + 1),
+        );
+        setValidatedParsedRows(validatedData);
         setError(null);
       },
       error: (error) => {
@@ -52,11 +64,15 @@ export function StanceUploadForm() {
 
       {error && <div className="text-sm text-destructive">{error}</div>}
 
-      {parsedData && parsedData.length > 0 && (
-        <div className="mt-4">
-          <p>Parsed {parsedData.length} rows!</p>
+      {validatedParsedRows.length > 0 && (
+        <div className="mt-4 space-y-4">
+          <p>
+            Parsed {validatedParsedRows.length} rows:{" "}
+            {validatedParsedRows.filter((r) => r.isValid).length} valid,{" "}
+            {validatedParsedRows.filter((r) => !r.isValid).length} invalid
+          </p>
           <pre className="text-xs bg-muted p-2 rounded overflow-auto">
-            {JSON.stringify(parsedData, null, 2)}
+            {JSON.stringify(validatedParsedRows, null, 2)}
           </pre>
         </div>
       )}

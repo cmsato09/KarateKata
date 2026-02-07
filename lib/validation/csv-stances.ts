@@ -1,7 +1,7 @@
 import type { ValidatedStanceData } from "./stances";
 
 export interface StanceCsvRow {
-  name: string;
+  "stance name": string;
   hiragana: string;
   kanji: string;
 }
@@ -18,12 +18,12 @@ export function validateStanceCSVRow(
   rowNumber: number,
 ): ValidatedRow {
   const errors: string[] = [];
-  const name = row.name?.trim() || "";
+  const name = row["stance name"]?.trim() || "";
   if (!name) {
     errors.push("Name is required");
   }
-  const name_hiragana = row.hiragana.trim() || null;
-  const name_kanji = row.kanji.trim() || null;
+  const name_hiragana = row.hiragana?.trim() || null;
+  const name_kanji = row.kanji?.trim() || null;
 
   return {
     data: { name, name_hiragana, name_kanji },
