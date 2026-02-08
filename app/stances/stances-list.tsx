@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { ChevronDown } from "lucide-react";
+import Link from "next/link";
 import type { Stance } from "@/app/generated/prisma/client";
 import { DataTable } from "@/components/data-table";
 import {
@@ -62,7 +63,10 @@ export function StancesList({ stances }: StancesListProps) {
   useEffect(() => {
     if (isOpen) {
       setTimeout(() => {
-        collapsibleRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        collapsibleRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
       }, 100);
     }
   }, [isOpen]);
@@ -87,7 +91,18 @@ export function StancesList({ stances }: StancesListProps) {
               </div>
             </CollapsibleTrigger>
             <CollapsibleContent className="px-4">
-              <StanceForm stance={selectedStance} onCancel={handleCancel} />
+              <div className="space-y-4">
+                {!selectedStance && (
+                  <div className="flex justify-end">
+                    <Button asChild variant="link" size="sm">
+                      <Link href="/stances/upload">
+                        Batch upload multiple stances with CSV file
+                      </Link>
+                    </Button>
+                  </div>
+                )}
+                <StanceForm stance={selectedStance} onCancel={handleCancel} />
+              </div>
             </CollapsibleContent>
           </Collapsible>
         </div>
