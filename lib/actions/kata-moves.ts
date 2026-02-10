@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 
-export async function getMovesets() {
+export async function getKataMoves() {
   try {
     return await prisma.move.findMany({
       include: {
