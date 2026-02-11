@@ -1,8 +1,8 @@
 "use client";
 
-import { DataTable } from "@/components/data-table";
 import { columns } from "./columns";
 import type { MoveWithRelations } from "./columns";
+import { KataMovesDataTable } from "./kata-moves-data-table";
 
 interface KataMovesListProps {
   movesets: MoveWithRelations[];
@@ -18,7 +18,7 @@ export function KataMovesList({ movesets }: KataMovesListProps) {
         </p>
       </div>
 
-      <DataTable
+      <KataMovesDataTable
         columns={columns}
         data={movesets}
       />
