@@ -42,6 +42,57 @@ interface KataMovesDataTableProps {
   data: MoveWithRelations[]
 }
 
+type FilterOption = { value: string; label: string }
+
+const techniqueTypeOptions: FilterOption[] = [
+  { value: "BLOCK", label: "Block" },
+  { value: "PUNCH", label: "Punch" },
+  { value: "KICK", label: "Kick" },
+  { value: "STRIKE", label: "Strike" },
+  { value: "PREP", label: "Prep" },
+]
+const directionOptions: FilterOption[] = [
+  { value: "N", label: "North" },
+  { value: "S", label: "South" },
+  { value: "E", label: "East" },
+  { value: "W", label: "West" },
+  { value: "NE", label: "Northeast" },
+  { value: "NW", label: "Northwest" },
+  { value: "SE", label: "Southeast" },
+  { value: "SW", label: "Southwest" },
+]
+const techniqueLevelOptions: FilterOption[] = [
+  { value: "GEDAN", label: "Gedan (Lower)" },
+  { value: "CHUDAN", label: "Chudan (Middle)" },
+  { value: "JODAN", label: "Jodan (Upper)" },
+  { value: "GEDAN_JODAN", label: "Gedan & Jodan" },
+]
+const leadFootOptions: FilterOption[] = [
+  { value: "LEFT", label: "Left" },
+  { value: "RIGHT", label: "Right" },
+]
+const hipOptions: FilterOption[] = [
+  { value: "HANMI", label: "Hanmi" },
+  { value: "SHOMEN", label: "Shomen" },
+  { value: "GYAKUHANMI", label: "Gyaku Hanmi" },
+]
+const activeSideOptions: FilterOption[] = [
+  { value: "LEFT", label: "Left" },
+  { value: "RIGHT", label: "Right" },
+  { value: "BOTH", label: "Both" },
+  { value: "NEITHER", label: "Neither" },
+]
+const speedOptions: FilterOption[] = [
+  { value: "FAST", label: "Fast" },
+  { value: "SLOW", label: "Slow" },
+  { value: "FAST_SLOW", label: "Fast → Slow" },
+  { value: "SLOW_FAST", label: "Slow → Fast" },
+]
+const snapThrustOptions: FilterOption[] = [
+  { value: "SNAP", label: "Snap" },
+  { value: "THRUST", label: "Thrust" },
+]
+
 function ColumnFilter({
   table,
   columnId,
@@ -51,15 +102,16 @@ function ColumnFilter({
   table: TanStackTable<MoveWithRelations>
   columnId: string
   label: string
-  options?: string[]
+  options?: FilterOption[]
 }) {
   const column = table.getColumn(columnId)
-  const uniqueValues = options ?? Array.from(
+
+  const selectOptions: FilterOption[] = options ?? Array.from(
     column?.getFacetedUniqueValues()?.keys() ?? []
   )
     .filter((v) => v != null && v !== "")
     .sort()
-    .map(String)
+    .map((v) => ({ value: String(v), label: String(v) }))
 
   const filterValue = column?.getFilterValue() as string | undefined
 
@@ -77,9 +129,9 @@ function ColumnFilter({
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="all">All</SelectItem>
-          {uniqueValues.map((value) => (
-            <SelectItem key={value} value={value}>
-              {value}
+          {selectOptions.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
             </SelectItem>
           ))}
         </SelectContent>
@@ -148,7 +200,7 @@ export function KataMovesDataTable({
         <div className="flex flex-wrap gap-4 items-end">
           <ColumnFilter table={table} columnId="kata_name" label="Kata" />
           <ColumnFilter table={table} columnId="stance_name" label="Stance" />
-          <ColumnFilter table={table} columnId="technique_type" label="Tech Type" options={Object.values(TechniqueType)}/>
+          <ColumnFilter table={table} columnId="technique_type" label="Tech Type" options={techniqueTypeOptions}/>
           <ColumnFilter table={table} columnId="technique_name" label="Technique" />
           {columnFilters.length > 0 && (
             <Button variant="ghost" onClick={() => setColumnFilters([])} className="self-end">
@@ -167,13 +219,13 @@ export function KataMovesDataTable({
           </CollapsibleTrigger>
           <CollapsibleContent className="pt-4">
             <div className="flex flex-wrap gap-4">
-              <ColumnFilter table={table} columnId="direction" label="Direction" options={Object.values()}/>
-              <ColumnFilter table={table} columnId="level" label="Level" options={Object.values()}/>
-              <ColumnFilter table={table} columnId="lead_foot" label="Lead Foot" options={Object.values()}/>
-              <ColumnFilter table={table} columnId="hip" label="Hip Position" options={Object.values()}/>
-              <ColumnFilter table={table} columnId="active_side" label="Active Side" options={Object.values()}/>
-              <ColumnFilter table={table} columnId="speed" label="Speed" options={Object.values()}/>
-              <ColumnFilter table={table} columnId="snap_thrust" label="Snap/Thrust" options={Object.values()}/>
+              <ColumnFilter table={table} columnId="direction" label="Direction" options={directionOptions}/>
+              <ColumnFilter table={table} columnId="level" label="Level" options={techniqueLevelOptions}/>
+              <ColumnFilter table={table} columnId="lead_foot" label="Lead Foot" options={leadFootOptions}/>
+              <ColumnFilter table={table} columnId="hip" label="Hip Position" options={hipOptions}/>
+              <ColumnFilter table={table} columnId="active_side" label="Active Side" options={activeSideOptions}/>
+              <ColumnFilter table={table} columnId="speed" label="Speed" options={speedOptions}/>
+              <ColumnFilter table={table} columnId="snap_thrust" label="Snap/Thrust" options={snapThrustOptions}/>
               <ColumnFilter table={table} columnId="breath" label="Breath"/> {/* TODO ADD BREADTH TO DB */}
               <KiaiFilter table={table} />
             </div>
