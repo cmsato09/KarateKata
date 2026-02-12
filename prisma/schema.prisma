@@ -30,8 +30,8 @@ model Move {
   kata_id Int
   kata Kata @relation(fields: [kata_id], references: [id], onDelete: Cascade)
   move_number Int
-  sequence Int
-  timing MoveTiming
+  sequence Int @default(1)
+  timing MoveTiming?
   stance_id Int
   stance Stance @relation(fields: [stance_id], references: [id])
   technique_id Int
