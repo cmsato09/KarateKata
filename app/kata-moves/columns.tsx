@@ -21,8 +21,8 @@ export const columns: ColumnDef<MoveWithRelations>[] = [
     header: "Move #",
   },
   {
-    accessorKey: "sequence",
-    header: "Seq",
+    accessorKey: "timing",
+    header: "Timing",
   },
   {
     accessorKey: "direction",

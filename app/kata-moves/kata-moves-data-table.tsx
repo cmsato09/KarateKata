@@ -51,6 +51,10 @@ const techniqueTypeOptions: FilterOption[] = [
   { value: "STRIKE", label: "Strike" },
   { value: "PREP", label: "Prep" },
 ]
+const timingOptions: FilterOption[] = [
+  { value: "SIMULTANEOUS", label: "Simultaneous" },
+  { value: "SEQUENTIAL", label: "Sequential" },
+]
 const directionOptions: FilterOption[] = [
   { value: "N", label: "North" },
   { value: "S", label: "South" },
@@ -219,6 +223,7 @@ export function KataMovesDataTable({
           </CollapsibleTrigger>
           <CollapsibleContent className="pt-4">
             <div className="flex flex-wrap gap-4">
+              <ColumnFilter table={table} columnId="timing" label="Timing" options={timingOptions}/>
               <ColumnFilter table={table} columnId="direction" label="Direction" options={directionOptions}/>
               <ColumnFilter table={table} columnId="level" label="Level" options={techniqueLevelOptions}/>
               <ColumnFilter table={table} columnId="lead_foot" label="Lead Foot" options={leadFootOptions}/>
