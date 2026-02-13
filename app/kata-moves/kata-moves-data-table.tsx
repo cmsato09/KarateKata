@@ -96,6 +96,11 @@ const snapThrustOptions: FilterOption[] = [
   { value: "SNAP", label: "Snap" },
   { value: "THRUST", label: "Thrust" },
 ]
+const breadthOptions: FilterOption[] = [
+  { value: "IN", label: "Inhale" },
+  { value: "OUT", label: "Exhale" },
+  { value: "IN_OUT", label: "In → Out" },
+]
 
 function ColumnFilter({
   table,
@@ -231,7 +236,7 @@ export function KataMovesDataTable({
               <ColumnFilter table={table} columnId="active_side" label="Active Side" options={activeSideOptions}/>
               <ColumnFilter table={table} columnId="speed" label="Speed" options={speedOptions}/>
               <ColumnFilter table={table} columnId="snap_thrust" label="Snap/Thrust" options={snapThrustOptions}/>
-              <ColumnFilter table={table} columnId="breath" label="Breath"/> {/* TODO ADD BREADTH TO DB */}
+              <ColumnFilter table={table} columnId="breadth" label="Breath" options={breadthOptions}/>
               <KiaiFilter table={table} />
             </div>
           </CollapsibleContent>
