@@ -44,6 +44,7 @@ model Move {
   snap_thrust SnapThrust
   level TechniqueLevel
   interm_move Boolean
+  breath Breath
   kiai Boolean
 
   @@unique([kata_id, move_number, sequence])
@@ -128,7 +129,7 @@ enum TechniqueLevel {
   GEDAN_JODAN // Both lower and upper level
 }
 
-enum Breadth {
+enum Breath {
   IN 
   OUT 
   IN_OUT
