@@ -30,6 +30,10 @@ const navigationLinks = [
     title: "Techniques",
     url: "/techniques",
   },
+  {
+    title: "Kata Moves",
+    url: "/kata-moves",
+  },
 ];
 
 export function AppSidebar() {

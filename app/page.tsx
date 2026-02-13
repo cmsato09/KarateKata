@@ -15,6 +15,10 @@ export default function Home() {
       title: "Techniques",
       href: "/techniques",
     },
+    {
+      title: "Kata Moves",
+      href: "/kata-moves",
+    },
   ];
 
   return (
@@ -34,6 +38,16 @@ export default function Home() {
               <p>一、努力の精神を養うこと</p>
               <p>一、礼儀を重んずること</p>
               <p>一、血気の勇を戒むること</p>
+            </div>
+          </div>
+          <div className="space-y-3">
+            <h2 className="text-xl font-semibold border-b pb-2">Dojo kun</h2>
+            <div className="space-y-1 text-muted-foreground">
+              <p>Hitotsu, jinkaku kansei ni tsutomuru koto</p>
+              <p>Hitotsu, makoto no michi wo mamoru koto</p>
+              <p>Hitotsu, doryoku no seishin wo yashinau koto</p>
+              <p>Hitotsu, reigi wo omonzuru koto</p>
+              <p>Hitotsu, kekki no yū wo imashimuru koto</p>
             </div>
           </div>
           <div className="space-y-3">

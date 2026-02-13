@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Move" ALTER COLUMN "sequence" SET DEFAULT 1,
+ALTER COLUMN "timing" DROP NOT NULL;
