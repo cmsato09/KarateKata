@@ -1,19 +1,4 @@
-export interface ValidatedMoveData {
-  move_number: number
-  sequence: number
-  timing: "SIMULTANEOUS" | "SEQUENTIAL" | null
-  stance_id: number
-  technique_id: number
-  direction: "N" | "S" | "E" | "W" | "NE" | "NW" | "SE" | "SW"
-  lead_foot: "LEFT" | "RIGHT"
-  hip: "HANMI" | "SHOMEN" | "GYAKUHANMI"
-  active_side: "LEFT" | "RIGHT" | "BOTH" | "NEITHER"
-  speed: "FAST" | "SLOW" | "FAST_SLOW" | "SLOW_FAST"
-  snap_thrust: "SNAP" | "THRUST"
-  level: "GEDAN" | "CHUDAN" | "JODAN" | "GEDAN_JODAN"
-  breath: "IN" | "OUT" | "IN_OUT"
-  kiai: boolean
-}
+import type { ValidatedMoveData } from "./kata-moves"
 
 export interface MoveRow {
   move_number: string
