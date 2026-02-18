@@ -67,7 +67,7 @@ export function validateMoveForm(
     data: {
       move_number,
       sequence,
-      timing: (form.timing || null) as ValidatedMoveData["timing"],
+      timing: (form.timing === "NONE" || !form.timing ? null : form.timing) as ValidatedMoveData["timing"],
       stance_id: Number(form.stance_id),
       technique_id: Number(form.technique_id),
       direction: form.direction as ValidatedMoveData["direction"],
