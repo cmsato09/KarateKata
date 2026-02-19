@@ -22,7 +22,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { createMultipleMoves } from "@/lib/actions/kata-moves";
-import type { ValidatedMoveData } from "@/lib/validation/kata-moves";
+import type { MoveFormState, ValidatedMoveData } from "@/lib/validation/kata-moves";
+import { CsvUploadForm } from "./csv-upload-form";
 import { MoveForm } from "./manual-move-form";
 
 interface KataMovesProps {
@@ -37,6 +38,8 @@ export function KataMovesUploadForm({
 }: KataMovesProps) {
   const [selectedKataId, setSelectedKataId] = useState<number | null>(null);
   const [queuedMoves, setQueuedMoves] = useState<ValidatedMoveData[]>([]);
+  const [activeTab, setActiveTab] = useState("manual");
+  const [formInitialValues, setFormInitialValues] = useState<Partial<MoveFormState> | undefined>(undefined)
 
   const selectedKata = katas.find((kata) => kata.id === selectedKataId);
 
@@ -63,6 +66,15 @@ export function KataMovesUploadForm({
     }
   }
 
+  function handleReview(values: Partial<MoveFormState>) {
+    setFormInitialValues(values);
+    setActiveTab("manual");
+  }
+
+  function handleAddAll(moves: ValidatedMoveData[]) {
+    moves.forEach((move) => addToQueue(move));
+  }
+
   return (
     <div className="space-y-6">
       {/* Kata selector */}
@@ -83,7 +95,7 @@ export function KataMovesUploadForm({
       </div>
 
       {/* Tabs */}
-      <Tabs defaultValue="manual">
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList>
           <TabsTrigger value="manual" disabled={!selectedKataId}>
             Manual Entry
@@ -96,11 +108,17 @@ export function KataMovesUploadForm({
           <MoveForm
             stances={stances}
             techniques={techniques}
+            initialValues={formInitialValues}
             onAdd={addToQueue}
           />
         </TabsContent>
         <TabsContent value="csv">
-          <p>PLACEHOLDER</p>
+          <CsvUploadForm
+            stances={stances}
+            techniques={techniques}
+            onReview={handleReview}
+            onAddAll={handleAddAll}
+          />
         </TabsContent>
       </Tabs>
 
