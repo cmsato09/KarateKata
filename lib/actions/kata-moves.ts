@@ -40,6 +40,44 @@ export async function getKataMovesByKataId(kataId: number) {
   }
 }
 
+export async function updateMove(
+  moveId: number,
+  move_data: ValidatedMoveData,
+): Promise<{ success: boolean; error: string | null }> {
+  try {
+    await prisma.move.update({
+      where: { id: moveId },
+      data: {
+        move_number: move_data.move_number,
+        sequence: move_data.sequence,
+        timing: move_data.timing ?? undefined,
+        stance_id: move_data.stance_id,
+        technique_id: move_data.technique_id,
+        direction: move_data.direction,
+        lead_foot: move_data.lead_foot,
+        hip: move_data.hip,
+        active_side: move_data.active_side,
+        speed: move_data.speed,
+        snap_thrust: move_data.snap_thrust,
+        level: move_data.level,
+        breath: move_data.breath,
+        interm_move: move_data.interm_move,
+        kiai: move_data.kiai,
+      },
+    });
+
+    revalidatePath("/kata-moves");
+    revalidatePath("/kata-moves/update");
+    return { success: true, error: null };
+  } catch (error) {
+    console.error("Database Error:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to update move",
+    };
+  }
+}
+
 interface ImportResult {
   success: boolean;
   error: string | null;
