@@ -24,6 +24,22 @@ export async function getKataMoves() {
   }
 }
 
+export async function getKataMovesByKataId(kataId: number) {
+  try {
+    return await prisma.move.findMany({
+      where: { kata_id: kataId },
+      include: {
+        stance: true,
+        technique: true,
+      },
+      orderBy: [{ move_number: "asc" }, { sequence: "asc" }],
+    });
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to load moveset data");
+  }
+}
+
 interface ImportResult {
   success: boolean;
   error: string | null;
