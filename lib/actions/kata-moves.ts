@@ -29,6 +29,7 @@ export async function getKataMovesByKataId(kataId: number) {
     return await prisma.move.findMany({
       where: { kata_id: kataId },
       include: {
+        kata: true,
         stance: true,
         technique: true,
       },
