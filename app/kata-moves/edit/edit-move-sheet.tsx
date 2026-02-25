@@ -4,6 +4,16 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import type { Stance, Technique } from "@/app/generated/prisma/browser";
 import type { MoveWithRelations } from "../columns";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -22,7 +32,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { updateMove } from "@/lib/actions/kata-moves";
+import { deleteMove, updateMove } from "@/lib/actions/kata-moves";
 import {
   validateMoveForm,
   type MoveFormState,
@@ -45,7 +55,6 @@ export function EditMoveSheet({
   onOpenChange,
   onSuccess,
 }: EditMoveSheetProps) {
-
   const [formState, setFormState] = useState<MoveFormState>({
     move_number: "",
     sequence: 1,
@@ -66,6 +75,7 @@ export function EditMoveSheet({
 
   const [errors, setErrors] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   useEffect(() => {
     if (move) {
@@ -113,7 +123,23 @@ export function EditMoveSheet({
     }
   }
 
+  async function confirmDelete() {
+    if (!move) return;
+
+    const result = await deleteMove(move.id);
+    if (result.success) {
+      toast.success("Move deleted successfully");
+      setShowDeleteDialog(false);
+      onSuccess();
+      onOpenChange(false);
+    } else {
+      toast.error(result.error ?? "Failed to delete move");
+      setShowDeleteDialog(false);
+    }
+  }
+
   return (
+    <div>
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent className="w-[400px] sm:w-[540px] overflow-y-auto">
         <SheetHeader>
@@ -427,9 +453,7 @@ export function EditMoveSheet({
           </Button>
           <Button
             variant="destructive"
-            onClick={() => {
-            
-            }}
+            onClick={() => setShowDeleteDialog(true)}
             disabled={isSubmitting}
           >
             Delete Move
@@ -437,5 +461,27 @@ export function EditMoveSheet({
         </SheetFooter>
       </SheetContent>
     </Sheet>
+
+    <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Confirm Deletion</AlertDialogTitle>
+          <AlertDialogDescription>
+            Are you sure you want to delete Move #{move?.move_number} from{" "}
+            {move?.kata.name}? This action cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction onClick={confirmDelete} className="bg-red-600 text-white hover:bg-red-700">
+            Delete
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+
+    </div>
   );
 }
