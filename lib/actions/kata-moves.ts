@@ -68,13 +68,34 @@ export async function updateMove(
     });
 
     revalidatePath("/kata-moves");
-    revalidatePath("/kata-moves/update");
+    revalidatePath("/kata-moves/edit");
     return { success: true, error: null };
   } catch (error) {
     console.error("Database Error:", error);
     return {
       success: false,
       error: error instanceof Error ? error.message : "Failed to update move",
+    };
+  }
+}
+
+export async function deleteMove(
+  moveId: number,
+): Promise<{ success: boolean; error: string | null }> {
+  try {
+    await prisma.move.delete({
+      where: { id: moveId },
+    });
+
+    revalidatePath("/kata-moves");
+    revalidatePath("/kata-moves/edit");
+
+    return { success: true, error: null };
+  } catch (error) {
+    console.error("Database Error:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to delete move",
     };
   }
 }
