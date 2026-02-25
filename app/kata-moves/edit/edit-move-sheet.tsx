@@ -419,11 +419,20 @@ export function EditMoveSheet({
         </div>
 
         <SheetFooter>
+          <Button onClick={handleSubmit} disabled={isSubmitting}>
+            {isSubmitting ? "Saving..." : "Save Changes"}
+          </Button>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button onClick={handleSubmit} disabled={isSubmitting}>
-            {isSubmitting ? "Saving..." : "Save Changes"}
+          <Button
+            variant="destructive"
+            onClick={() => {
+            
+            }}
+            disabled={isSubmitting}
+          >
+            Delete Move
           </Button>
         </SheetFooter>
       </SheetContent>

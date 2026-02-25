@@ -6,12 +6,10 @@ import { MoveWithRelations } from "../columns";
 
 interface EditColumnsProps {
   onEdit: (move: MoveWithRelations) => void;
-  onDelete: (move: MoveWithRelations) => void;
 }
 
 export function createEditColumns({
   onEdit,
-  onDelete,
 }: EditColumnsProps): ColumnDef<MoveWithRelations>[] {
   return [
     {
@@ -26,15 +24,6 @@ export function createEditColumns({
           >
             Edit
           </Button>
-          {onDelete && (
-            <Button
-              variant="destructive"
-              size="sm"
-              onClick={() => onDelete(row.original)}
-            >
-              Delete
-            </Button>
-          )}
         </div>
       ),
     },

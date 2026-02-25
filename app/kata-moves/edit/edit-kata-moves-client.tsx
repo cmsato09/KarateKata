@@ -71,7 +71,6 @@ export function EditKataMovesClient({
 
   const columns = createEditColumns({
     onEdit: handleEdit,
-    onDelete: handleDelete,
   });
 
   return (
