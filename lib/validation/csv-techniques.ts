@@ -72,7 +72,7 @@ export function validateTechniqueCSVRow(
   }
 
   const data: ValidatedTechniqueData = {
-    name: name!,
+    name: name!.toLowerCase(),
     type: type!.toUpperCase() as TechniqueType,
     name_hiragana,
     name_kanji,
