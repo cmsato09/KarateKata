@@ -1,11 +1,11 @@
 import type { ValidatedKataData } from "./katas";
 
 export interface KataCsvRow {
-  name: string;
+  "kata name": string;
   style: string;
   series: string;
-  name_hiragana?: string;
-  name_kanji?: string;
+  hiragana?: string;
+  kanji?: string;
 }
 
 export type ValidatedKataRow =
@@ -30,7 +30,7 @@ export function validateKataCSVRow(
 ): ValidatedKataRow {
   const errors: string[] = [];
 
-  const name = rowData.name?.trim();
+  const name = rowData["kata name"]?.trim();
   if (!name) {
     errors.push("Kata name is required");
   } else if (name.length > MAX_KATA_LENGTH) {
@@ -49,11 +49,11 @@ export function validateKataCSVRow(
     );
   }
 
-  const name_hiragana = rowData.name_hiragana?.trim() || null;
+  const name_hiragana = rowData.hiragana?.trim() || null;
   if (name_hiragana && name_hiragana.length > MAX_KATA_LENGTH) {
     errors.push(`Hiragana name must be ${MAX_KATA_LENGTH} characters or less`);
   }
-  const name_kanji = rowData.name_kanji?.trim() || null;
+  const name_kanji = rowData.kanji?.trim() || null;
   if (name_kanji && name_kanji.length > MAX_KATA_LENGTH) {
     errors.push(`Kanji name must be ${MAX_KATA_LENGTH} characters or less`);
   }
