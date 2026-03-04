@@ -127,6 +127,11 @@ export function NewTechniqueForm({ technique, onCancel }: NewTechniqueFormProps)
         >
           {isEditing ? "Update Technique" : "Add Technique"}
         </Button>
+        {!isEditing && (
+          <Button type="button" variant="outline" asChild>
+            <a href="/techniques/upload">Bulk Upload CSV</a>
+          </Button>
+        )}
         {isEditing && onCancel && (
           <Button
             type="button"
