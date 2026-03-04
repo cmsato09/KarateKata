@@ -2,10 +2,10 @@ import { TechniqueType } from "@/app/generated/prisma/enums";
 import type { ValidatedTechniqueData } from "./techniques";
 
 export interface TechniqueCsvRow {
-  name: string;
+  "technique name": string;
   type: string;
-  name_hiragana?: string;
-  name_kanji?: string;
+  hiragana?: string;
+  kanji?: string;
   description?: string;
 }
 
@@ -31,7 +31,7 @@ export function validateTechniqueCSVRow(
 ): ValidatedTechniqueRow {
   const errors: string[] = [];
 
-  const name = rowData.name?.trim();
+  const name = rowData["technique name"]?.trim();
   if (!name) {
     errors.push("Technique name is required");
   } else if (name.length > MAX_TECHNIQUE_NAME_LENGTH) {
@@ -48,13 +48,13 @@ export function validateTechniqueCSVRow(
     );
   }
 
-  const name_hiragana = rowData.name_hiragana?.trim() || null;
+  const name_hiragana = rowData.hiragana?.trim() || null;
   if (name_hiragana && name_hiragana.length > MAX_TECHNIQUE_NAME_LENGTH) {
     errors.push(
       `Hiragana name must be ${MAX_TECHNIQUE_NAME_LENGTH} characters or less`,
     );
   }
-  const name_kanji = rowData.name_kanji?.trim() || null;
+  const name_kanji = rowData.kanji?.trim() || null;
   if (name_kanji && name_kanji.length > MAX_TECHNIQUE_NAME_LENGTH) {
     errors.push(
       `Kanji name must be ${MAX_TECHNIQUE_NAME_LENGTH} characters or less`,
