@@ -75,12 +75,12 @@ export function TechniqueUploadForm() {
 
     setIsImporting(true);
 
-    const validKatas = validRows.map((row) => row.data);
-    const result = await importTechniquesAction(validKatas);
+    const validTechniques = validRows.map((row) => row.data);
+    const result = await importTechniquesAction(validTechniques);
 
     setIsImporting(false);
     if (result.success) {
-      toast.success(`Successfully imported ${result.createdCount} katas`);
+      toast.success(`Successfully imported ${result.createdCount} techniques`);
       setValidatedParsedRows([]);
       setFile(null);
     } else {
@@ -96,7 +96,7 @@ export function TechniqueUploadForm() {
       <div className="text-sm text-muted-foreground">
         <p>Expected CSV format (hiragana, kanji, and description are optional):</p>
         <pre className="text-xs bg-muted p-2 rounded mt-1">
-          {`technique name,type,hiragana,kanji,description\nGedanbarai,Block,げだんばらい,下段払い,A downward sweeping block`}
+          {`technique name,type,hiragana,kanji,description\nGedanbarai,BLOCK,げだんばらい,下段払い,A downward sweeping block`}
         </pre>
       </div>
       <Input
