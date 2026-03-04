@@ -15,7 +15,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import { createKataAction, updateKataAction } from "@/lib/actions/katas";
 import { KATA_FORM_FIELDS } from "@/lib/validation/katas";
 
@@ -49,9 +49,7 @@ export function KataForm({ kata, onCancel }: KataFormProps) {
   return (
     <Form key={kata?.id ?? "new"} action={formAction} className="space-y-4">
       {/* Hidden ID field for updates */}
-      {isEditing && kata && (
-        <input type="hidden" name="id" value={kata.id} />
-      )}
+      {isEditing && kata && <input type="hidden" name="id" value={kata.id} />}
 
       {/* Style Name */}
       <div className="space-y-2">
@@ -134,6 +132,12 @@ export function KataForm({ kata, onCancel }: KataFormProps) {
         <Button type="submit" disabled={isPending}>
           {isEditing ? "Update Kata" : "Add Kata"}
         </Button>
+        {!isEditing && (
+          <Button type="button" variant="outline" asChild>
+            <a href="/katas/upload">Bulk Upload CSV</a>
+          </Button>
+        )}
+
         {isEditing && onCancel && (
           <Button
             type="button"
@@ -148,4 +152,3 @@ export function KataForm({ kata, onCancel }: KataFormProps) {
     </Form>
   );
 }
-
