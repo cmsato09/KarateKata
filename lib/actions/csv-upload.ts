@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import type { ValidatedKataData } from "@/lib/validation/katas";
 import type { ValidatedStanceData } from "@/lib/validation/stances";
+import type { ValidatedTechniqueData } from "@/lib/validation/techniques";
 
 interface ImportResult {
   success: boolean;
@@ -117,6 +118,60 @@ export async function importStancesAction(
       success: false,
       error:
         error instanceof Error ? error.message : "Failed to import stances",
+      createdCount: 0,
+      skippedCount: 0,
+    };
+  }
+}
+
+export async function importTechniquesAction(
+  validTechniques: ValidatedTechniqueData[],
+): Promise<ImportResult> {
+  try {
+    const names = validTechniques.map((t) => t.name);
+    const existingTechniques = await prisma.technique.findMany({
+      where: { name: { in: names } },
+      select: { name: true },
+    });
+
+    if (existingTechniques.length > 0) {
+      const duplicateNames = existingTechniques.map((s) => s.name).join(", ");
+      return {
+        success: false,
+        error: `Techniques with the following names already exist: ${duplicateNames}`,
+        createdCount: 0,
+        skippedCount: existingTechniques.length,
+      };
+    }
+
+    const createdTechniques = await prisma.$transaction(
+      validTechniques.map((technique) =>
+        prisma.technique.create({
+          data: {
+            name: technique.name,
+            type: technique.type,
+            name_hiragana: technique.name_hiragana,
+            name_kanji: technique.name_kanji,
+            description: technique.description,
+          },
+        }),
+      ),
+    );
+
+    revalidatePath("/techniques");
+
+    return {
+      success: true,
+      error: null,
+      createdCount: createdTechniques.length,
+      skippedCount: 0,
+    };
+  } catch (error) {
+    console.error("Error importing techniques:", error);
+    return {
+      success: false,
+      error:
+        error instanceof Error ? error.message : "Failed to import techniques",
       createdCount: 0,
       skippedCount: 0,
     };
