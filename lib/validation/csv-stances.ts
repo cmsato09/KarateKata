@@ -18,7 +18,7 @@ export function validateStanceCSVRow(
   rowNumber: number,
 ): ValidatedRow {
   const errors: string[] = [];
-  const name = row["stance name"]?.trim() || "";
+  const name = row["stance name"]?.trim().toLowerCase() || "";
   if (!name) {
     errors.push("Name is required");
   }

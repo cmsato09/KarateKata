@@ -22,11 +22,12 @@ export const STANCE_FORM_FIELDS = {
 } as const;
 
 export function validateStanceData(formData: FormData): ValidatedStanceData {
-  const name = getRequiredStringField(
+  const nameValue = getRequiredStringField(
     formData,
     STANCE_FORM_FIELDS.NAME,
     "Stance name is required"
   );
+  const name = nameValue.toLowerCase();
 
   const name_hiragana = getOptionalStringField(
     formData,
