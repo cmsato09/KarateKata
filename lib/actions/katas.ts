@@ -58,6 +58,7 @@ export async function createKataAction(
   try {
     const kata = await createKata(formData);
     revalidatePath("/katas");
+    revalidatePath("/kata-moves/upload");
     return {
       success: true,
       error: null,
@@ -140,6 +141,7 @@ export async function updateKataAction(
 
     const kata = await updateKata(id, formData);
     revalidatePath("/katas");
+    revalidatePath("/kata-moves/upload");
     return {
       success: true,
       error: null,
@@ -162,6 +164,7 @@ export async function deleteKata(id: number) {
       where: { id },
     });
     revalidatePath("/katas");
+    revalidatePath("/kata-moves/upload");
     return deletedKata;
   } catch (error) {
     console.error("Database error", error);

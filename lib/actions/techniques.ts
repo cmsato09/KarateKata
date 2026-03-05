@@ -59,6 +59,7 @@ export async function createTechniqueAction(
   try {
     const technique = await createTechnique(formData);
     revalidatePath("/techniques");
+    revalidatePath("/kata-moves/upload");
     return {
       success: true,
       error: null,
@@ -141,6 +142,7 @@ export async function updateTechniqueAction(
 
     const technique = await updateTechnique(id, formData);
     revalidatePath("/techniques");
+    revalidatePath("/kata-moves/upload");
     return {
       success: true,
       error: null,
@@ -164,6 +166,7 @@ export async function deleteTechnique(id: number) {
     });
 
     revalidatePath("/techniques");
+    revalidatePath("/kata-moves/upload");
     return deletedTechnique;
   } catch (error) {
     console.error("Database error", error);
