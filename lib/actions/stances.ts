@@ -56,6 +56,7 @@ export async function createStanceAction(
   try {
     const stance = await createStance(formData);
     revalidatePath("/stances");
+    revalidatePath("/kata-moves/upload");
     return {
       success: true,
       error: null,
@@ -132,6 +133,7 @@ export async function updateStanceAction(
 
     const stance = await updateStance(id, formData);
     revalidatePath("/stances");
+    revalidatePath("/kata-moves/upload");
     return {
       success: true,
       error: null,
@@ -154,6 +156,7 @@ export async function deleteStance(id: number) {
       where: { id },
     });
     revalidatePath("/stances");
+    revalidatePath("/kata-moves/upload");
     return deletedStance;
   } catch (error) {
     console.error("Database error", error);

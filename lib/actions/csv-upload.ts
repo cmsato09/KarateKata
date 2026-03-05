@@ -54,6 +54,7 @@ export async function importKatasAction(
     );
 
     revalidatePath("/katas");
+    revalidatePath("/kata-moves/upload");
 
     return {
       success: true,
@@ -105,6 +106,7 @@ export async function importStancesAction(
     );
 
     revalidatePath("/stances");
+    revalidatePath("/kata-moves/upload");
 
     return {
       success: true,
@@ -159,7 +161,8 @@ export async function importTechniquesAction(
     );
 
     revalidatePath("/techniques");
-
+    revalidatePath("/kata-moves/upload");
+    
     return {
       success: true,
       error: null,
