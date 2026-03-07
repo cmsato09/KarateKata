@@ -22,7 +22,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { deleteKata } from "@/lib/actions/katas";
-import { createColumns } from "./columns";
+import { createColumnsWithActions, readOnlyColumns } from "./columns";
 import { KataForm } from "./kata-form";
 
 interface KataListProps {
@@ -68,8 +68,6 @@ export function KataList({ katas }: KataListProps) {
     }
   }, [isOpen]);
 
-  const columns = createColumns(handleEdit, handleDelete);
-
   return (
     <div className="flex flex-col items-center">
       <h1 className="text-4xl font-bold mb-8">Katas</h1>
@@ -100,7 +98,12 @@ export function KataList({ katas }: KataListProps) {
 
       {/* Kata Data Table */}
       <div className="w-full max-w-4xl px-4">
-        <DataTable columns={columns} data={katas} />
+        <Show when="signed-in">
+          <DataTable columns={createColumnsWithActions(handleEdit, handleDelete)} data={katas} />
+        </Show>
+        <Show when="signed-out">
+          <DataTable columns={readOnlyColumns} data={katas} />
+        </Show>
       </div>
 
       <AlertDialog

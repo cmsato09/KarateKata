@@ -4,10 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import type { Kata } from "@/app/generated/prisma/client";
 import { Button } from "@/components/ui/button";
 
-export const createColumns = (
-  onEdit: (kata: Kata) => void,
-  onDelete: (kata: Kata) => void,
-): ColumnDef<Kata>[] => [
+const baseColumns: ColumnDef<Kata>[] = [
   {
     accessorKey: "name",
     header: "Name",
@@ -24,6 +21,13 @@ export const createColumns = (
     accessorKey: "name_kanji",
     header: "Kanji",
   },
+];
+
+export const createColumnsWithActions = (
+  onEdit: (kata: Kata) => void,
+  onDelete: (kata: Kata) => void,
+): ColumnDef<Kata>[] => [
+  ...baseColumns,
   {
     id: "actions",
     header: "Actions",
@@ -46,3 +50,5 @@ export const createColumns = (
     },
   },
 ];
+
+export const readOnlyColumns = baseColumns;
