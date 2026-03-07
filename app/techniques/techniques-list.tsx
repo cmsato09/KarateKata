@@ -22,7 +22,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { deleteTechnique } from "@/lib/actions/techniques";
-import { createColumns } from "./columns";
+import { createColumnsWithActions, readOnlyColumns } from "./columns";
 import { NewTechniqueForm } from "./new-technique-form";
 
 interface TechniquesListProps {
@@ -68,8 +68,6 @@ export function TechniquesList({ techniques }: TechniquesListProps) {
     }
   }, [isOpen]);
 
-  const columns = createColumns(handleEdit, handleDelete);
-
   return (
     <div className="flex flex-col items-center">
       <h1 className="text-4xl font-bold mb-8">Techniques</h1>
@@ -96,7 +94,16 @@ export function TechniquesList({ techniques }: TechniquesListProps) {
           </div>
         </div>
       </Show>
-        <DataTable columns={columns} data={techniques} />
+
+      {/* Techniques Table */}
+      <div className="w-full max-w-4xl px-4">
+        <Show when="signed-in">
+          <DataTable columns={createColumnsWithActions(handleEdit, handleDelete)} data={techniques} />
+        </Show>
+        <Show when="signed-out">
+          <DataTable columns={readOnlyColumns} data={techniques} />
+        </Show>
+      </div>
 
       <AlertDialog open={!!techniqueToDelete} onOpenChange={(open) => !open && setTechniqueToDelete(null)}>
         <AlertDialogContent>
