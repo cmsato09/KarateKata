@@ -23,7 +23,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { deleteStance } from "@/lib/actions/stances";
-import { createColumns } from "./columns";
+import { createColumnsWithActions, readOnlyColumns } from "./columns";
 import { StanceForm } from "./stance-form";
 
 interface StancesListProps {
@@ -72,8 +72,6 @@ export function StancesList({ stances }: StancesListProps) {
     }
   }, [isOpen]);
 
-  const columns = createColumns(handleEdit, handleDelete);
-
   return (
     <div className="flex flex-col items-center">
       <h1 className="text-4xl font-bold mb-8">Stances</h1>
@@ -111,9 +109,15 @@ export function StancesList({ stances }: StancesListProps) {
           </div>
         </div>
       </Show>
-
+      
+      {/* Stances Data Table */}
       <div className="w-full max-w-4xl px-4">
-        <DataTable columns={columns} data={stances} />
+        <Show when="signed-in">
+          <DataTable columns={createColumnsWithActions(handleEdit, handleDelete)} data={stances} />
+        </Show>
+        <Show when="signed-out">
+          <DataTable columns={readOnlyColumns} data={stances} />
+        </Show>
       </div>
 
       <AlertDialog
