@@ -3,13 +3,22 @@
 import Form from "next/form";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
-import { createTechniqueAction, updateTechniqueAction } from "@/lib/actions/techniques";
+import {
+  createTechniqueAction,
+  updateTechniqueAction,
+} from "@/lib/actions/techniques";
 import type { Technique } from "@/app/generated/prisma/client";
 import { TechniqueType } from "@/app/generated/prisma/enums";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
 interface TechniqueFormProps {
@@ -21,26 +30,30 @@ export function TechniqueForm({ technique, onCancel }: TechniqueFormProps) {
   const isEditing = !!technique;
   const [state, formAction, isPending] = useActionState(
     isEditing ? updateTechniqueAction : createTechniqueAction,
-    null
+    null,
   );
 
   // Reset form and call onCancel when submission is successful
   useEffect(() => {
     if (state?.success) {
       toast.success(
-        `Technique ${state.operation === "update" ? "updated" : "created"} successfully!`
+        `Technique ${state.operation === "update" ? "updated" : "created"} successfully!`,
       );
-    
+
       if (state.operation === "update" && onCancel) {
         onCancel();
-      } 
+      }
     } else if (state?.error) {
-        toast.error(state.error);
+      toast.error(state.error);
     }
   }, [state?.success, state?.error, state?.operation, onCancel]);
-  
+
   return (
-    <Form key={technique?.id ?? 'new'} action={formAction} className="space-y-4">
+    <Form
+      key={technique?.id ?? "new"}
+      action={formAction}
+      className="space-y-4"
+    >
       {/* Hidden ID field for updates */}
       {isEditing && technique && (
         <input type="hidden" name="id" value={technique.id} />
@@ -49,15 +62,15 @@ export function TechniqueForm({ technique, onCancel }: TechniqueFormProps) {
       {/* Technique Name */}
       <div className="space-y-2">
         <Label htmlFor="tech_name">Technique</Label>
-          <Input
-            type="text"
-            id="tech_name"
-            name="tech_name"
-            placeholder="Add Technique Name"
-            defaultValue={technique?.name || ""}
-            required
-            disabled={isPending}
-          />
+        <Input
+          type="text"
+          id="tech_name"
+          name="tech_name"
+          placeholder="Add Technique Name"
+          defaultValue={technique?.name || ""}
+          required
+          disabled={isPending}
+        />
       </div>
 
       {/* Type */}
@@ -120,10 +133,7 @@ export function TechniqueForm({ technique, onCancel }: TechniqueFormProps) {
 
       {/* Submit and Cancel buttons */}
       <div className="flex gap-2">
-        <Button
-          type="submit"
-          disabled={isPending}
-        >
+        <Button type="submit" disabled={isPending}>
           {isEditing ? "Update Technique" : "Add Technique"}
         </Button>
         {!isEditing && (
@@ -143,5 +153,5 @@ export function TechniqueForm({ technique, onCancel }: TechniqueFormProps) {
         )}
       </div>
     </Form>
-  )
+  );
 }
