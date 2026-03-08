@@ -5,13 +5,12 @@ import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 import { createTechniqueAction, updateTechniqueAction } from "@/lib/actions/techniques";
 import type { Technique } from "@/app/generated/prisma/client";
+import { TechniqueType } from "@/app/generated/prisma/enums";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-
-const TECHNIQUE_TYPES = ["BLOCK", "PUNCH", "KICK", "STRIKE", "PREP"] as const;
 
 interface NewTechniqueFormProps {
   technique?: Technique | null;
@@ -74,7 +73,7 @@ export function NewTechniqueForm({ technique, onCancel }: NewTechniqueFormProps)
             <SelectValue placeholder="Select a type" />
           </SelectTrigger>
           <SelectContent>
-            {Object.values(TECHNIQUE_TYPES).map((type) => (
+            {Object.values(TechniqueType).map((type) => (
               <SelectItem key={type} value={type}>
                 {type}
               </SelectItem>
