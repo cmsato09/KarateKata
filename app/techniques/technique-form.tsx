@@ -12,12 +12,12 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
-interface NewTechniqueFormProps {
+interface TechniqueFormProps {
   technique?: Technique | null;
   onCancel?: () => void;
 }
 
-export function NewTechniqueForm({ technique, onCancel }: NewTechniqueFormProps) {
+export function TechniqueForm({ technique, onCancel }: TechniqueFormProps) {
   const isEditing = !!technique;
   const [state, formAction, isPending] = useActionState(
     isEditing ? updateTechniqueAction : createTechniqueAction,

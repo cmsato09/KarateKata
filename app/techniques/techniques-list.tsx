@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/collapsible";
 import { deleteTechnique } from "@/lib/actions/techniques";
 import { createColumnsWithActions, readOnlyColumns } from "./columns";
-import { NewTechniqueForm } from "./new-technique-form";
+import { TechniqueForm } from "./technique-form";
 
 interface TechniquesListProps {
   techniques: Technique[];
@@ -88,7 +88,7 @@ export function TechniquesList({ techniques }: TechniquesListProps) {
                 </div>
               </CollapsibleTrigger>
               <CollapsibleContent className="px-4">
-                <NewTechniqueForm technique={selectedTechnique} onCancel={handleCancel} />
+                <TechniqueForm technique={selectedTechnique} onCancel={handleCancel} />
               </CollapsibleContent>
             </Collapsible>
           </div>
