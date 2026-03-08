@@ -2,6 +2,7 @@
 
 import prisma from "../prisma";
 import { revalidatePath } from "next/cache";
+import { requireAuth } from "@/lib/auth-guard";
 import { validateTechniqueData } from "../validation/techniques";
 import type { Technique } from "@/app/generated/prisma/client";
 
@@ -17,6 +18,8 @@ export async function getTechniques() {
 }
 
 export async function createTechnique(formData: FormData) {
+  await requireAuth();
+
   try {
     const validatedData = validateTechniqueData(formData);
 
@@ -77,6 +80,8 @@ export async function createTechniqueAction(
 }
 
 export async function updateTechnique(id: number, formData: FormData) {
+  await requireAuth();
+
   try {
     const validatedData = validateTechniqueData(formData);
 
@@ -160,6 +165,8 @@ export async function updateTechniqueAction(
 }
 
 export async function deleteTechnique(id: number) {
+  await requireAuth();
+
   try {
     const deletedTechnique = await prisma.technique.delete({
       where: { id },

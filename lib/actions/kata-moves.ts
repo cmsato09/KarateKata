@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
+import { requireAuth } from "@/lib/auth-guard";
 import type { ValidatedMoveData } from "../validation/kata-moves";
 
 export async function getKataMoves() {
@@ -45,6 +46,8 @@ export async function updateMove(
   moveId: number,
   move_data: ValidatedMoveData,
 ): Promise<{ success: boolean; error: string | null }> {
+  await requireAuth();
+
   try {
     await prisma.move.update({
       where: { id: moveId },
@@ -82,6 +85,8 @@ export async function updateMove(
 export async function deleteMove(
   moveId: number,
 ): Promise<{ success: boolean; error: string | null }> {
+  await requireAuth();
+
   try {
     await prisma.move.delete({
       where: { id: moveId },
@@ -111,6 +116,8 @@ export async function createMultipleMoves(
   kataId: number,
   moves: ValidatedMoveData[],
 ): Promise<ImportResult> {
+  await requireAuth();
+
   try {
     const existingMoves = await prisma.move.findMany({
       where: {

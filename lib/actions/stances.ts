@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import type { Stance } from "@/app/generated/prisma/client";
 import prisma from "@/lib/prisma";
+import { requireAuth } from "@/lib/auth-guard";
 import { validateStanceData } from "@/lib/validation/stances";
 
 export async function getStances() {
@@ -17,6 +18,8 @@ export async function getStances() {
 }
 
 export async function createStance(formData: FormData) {
+  await requireAuth();
+
   try {
     const validatedStanceData = validateStanceData(formData);
 
@@ -74,6 +77,8 @@ export async function createStanceAction(
 }
 
 export async function updateStance(id: number, formData: FormData) {
+  await requireAuth();
+
   try {
     const validatedStanceData = validateStanceData(formData);
 
@@ -151,6 +156,8 @@ export async function updateStanceAction(
 }
 
 export async function deleteStance(id: number) {
+  await requireAuth();
+
   try {
     const deletedStance = await prisma.stance.delete({
       where: { id },

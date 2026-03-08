@@ -4,10 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import type { Stance } from "@/app/generated/prisma/client";
 import { Button } from "@/components/ui/button";
 
-export const createColumns = (
-  onEdit: (stance: Stance) => void,
-  onDelete: (stance: Stance) => void,
-): ColumnDef<Stance>[] => [
+const baseColumns: ColumnDef<Stance>[] = [
   {
     accessorKey: "name",
     header: "Name",
@@ -20,6 +17,13 @@ export const createColumns = (
     accessorKey: "name_kanji",
     header: "Kanji",
   },
+];
+
+export const createColumnsWithActions = (
+  onEdit: (stance: Stance) => void,
+  onDelete: (stance: Stance) => void,
+): ColumnDef<Stance>[] => [
+  ...baseColumns,
   {
     id: "actions",
     header: "Actions",
@@ -42,3 +46,5 @@ export const createColumns = (
     },
   },
 ];
+
+export const readOnlyColumns = baseColumns;
