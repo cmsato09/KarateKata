@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import type { Kata } from "@/app/generated/prisma/browser";
 import prisma from "@/lib/prisma";
+import { requireAuth } from "@/lib/auth-guard";
 import { validateKataData } from "@/lib/validation/katas";
 
 export async function getKatas() {
@@ -17,6 +18,8 @@ export async function getKatas() {
 }
 
 export async function createKata(formData: FormData) {
+  await requireAuth();
+
   try {
     const validatedKataData = validateKataData(formData);
 
@@ -77,6 +80,8 @@ export async function createKataAction(
 }
 
 export async function updateKata(id: number, formData: FormData) {
+  await requireAuth();
+
   try {
     const validatedKataData = validateKataData(formData);
 
@@ -159,6 +164,8 @@ export async function updateKataAction(
 }
 
 export async function deleteKata(id: number) {
+  await requireAuth();
+
   try {
     const deletedKata = await prisma.kata.delete({
       where: { id },

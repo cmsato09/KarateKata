@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
+import { requireAuth } from "@/lib/auth-guard";
 import type { ValidatedKataData } from "@/lib/validation/katas";
 import type { ValidatedStanceData } from "@/lib/validation/stances";
 import type { ValidatedTechniqueData } from "@/lib/validation/techniques";
@@ -16,6 +17,8 @@ interface ImportResult {
 export async function importKatasAction(
   validKatas: ValidatedKataData[],
 ): Promise<ImportResult> {
+  await requireAuth();
+
   try {
     const existingKatas = await prisma.kata.findMany({
       where: {
@@ -76,6 +79,8 @@ export async function importKatasAction(
 export async function importStancesAction(
   validStances: ValidatedStanceData[],
 ): Promise<ImportResult> {
+  await requireAuth();
+
   try {
     const names = validStances.map((s) => s.name);
     const existingStances = await prisma.stance.findMany({
@@ -129,6 +134,8 @@ export async function importStancesAction(
 export async function importTechniquesAction(
   validTechniques: ValidatedTechniqueData[],
 ): Promise<ImportResult> {
+  await requireAuth();
+
   try {
     const names = validTechniques.map((t) => t.name);
     const existingTechniques = await prisma.technique.findMany({
