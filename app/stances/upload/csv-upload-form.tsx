@@ -84,9 +84,14 @@ export function StanceUploadForm() {
 
   return (
     <div className="space-y-4">
-      <h2>Upload Stance CSV file</h2>
-      <Input type="file" accept=".csv" onChange={handleFileChange} />
-      <Button onClick={handleParseFile} disabled={!file}>
+      <Input
+        type="file"
+        name="stance_csv"
+        accept=".csv"
+        onChange={handleFileChange}
+        className="mt-4"
+      />
+      <Button onClick={handleParseFile} disabled={!file} className="mt-2">
         Parse CSV file
       </Button>
 
