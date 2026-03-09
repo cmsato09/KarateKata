@@ -1,4 +1,4 @@
-import { KataUploadForm } from "./upload-form";
+import { KataUploadForm } from "./csv-upload-form";
 
 export default function KataUploadPage() {
   return (
