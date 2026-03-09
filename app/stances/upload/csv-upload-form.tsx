@@ -5,17 +5,17 @@ import Papa from "papaparse";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { importKatasAction } from "@/lib/actions/csv-upload";
+import { importStancesAction } from "@/lib/actions/csv-upload";
 import {
-  validateKataCSV,
-  type KataCsvRow,
-  type ValidatedKataRow,
-} from "@/lib/validation/csv-kata";
+  validateStanceCSVRow,
+  type StanceCsvRow,
+  type ValidatedRow,
+} from "@/lib/validation/csv-stances";
 
-export function KataUploadForm() {
+export function StanceUploadForm() {
   const [file, setFile] = useState<File | null>(null);
   const [validatedParsedRows, setValidatedParsedRows] = useState<
-    ValidatedKataRow[]
+    ValidatedRow[]
   >([]);
   const [error, setError] = useState<string | null>(null);
   const [isImporting, setIsImporting] = useState(false);
@@ -30,23 +30,16 @@ export function KataUploadForm() {
   function handleParseFile() {
     if (!file) return;
 
-    Papa.parse<KataCsvRow>(file, {
+    Papa.parse<StanceCsvRow>(file, {
       header: true,
       skipEmptyLines: true,
       transformHeader: (header) => header.trim().toLowerCase(),
       transform: (value) => value.trim(),
       complete: (results) => {
         console.log("Parsed CSV data:", results.data);
-        const expectedHeaders = [
-          "kata name",
-          "style",
-          "series",
-          "hiragana",
-          "kanji",
-        ];
+        const expectedHeaders = ["stance name", "hiragana", "kanji"];
         const actualHeaders =
           results.meta.fields?.map((h) => h.trim().toLowerCase()) || [];
-
         if (JSON.stringify(actualHeaders) !== JSON.stringify(expectedHeaders)) {
           setError(
             `Invalid CSV headers. Expected: ${expectedHeaders.join(", ")}`,
@@ -54,8 +47,9 @@ export function KataUploadForm() {
           return;
         }
 
-        const { results: validatedData } = validateKataCSV(results.data);
-
+        const validatedData = results.data.map((row, index) =>
+          validateStanceCSVRow(row, index + 1),
+        );
         setValidatedParsedRows(validatedData);
         setError(null);
       },
@@ -66,7 +60,7 @@ export function KataUploadForm() {
   }
 
   async function handleImport() {
-    const validRows = validatedParsedRows.filter((row) => row.isValid);
+    const validRows = validatedParsedRows.filter((r) => r.isValid);
 
     if (validRows.length === 0) {
       toast.error("No valid rows to import");
@@ -75,12 +69,12 @@ export function KataUploadForm() {
 
     setIsImporting(true);
 
-    const validKatas = validRows.map((row) => row.data);
-    const result = await importKatasAction(validKatas);
+    const validStances = validRows.map((r) => r.data);
+    const result = await importStancesAction(validStances);
 
     setIsImporting(false);
     if (result.success) {
-      toast.success(`Successfully imported ${result.createdCount} katas`);
+      toast.success(`Successfully imported ${result.createdCount} stances`);
       setValidatedParsedRows([]);
       setFile(null);
     } else {
@@ -88,42 +82,38 @@ export function KataUploadForm() {
     }
   }
 
-  const validCount = validatedParsedRows.filter((row) => row.isValid).length;
-  const invalidCount = validatedParsedRows.length - validCount;
-
   return (
     <div className="space-y-4">
-      <div className="text-sm text-muted-foreground">
-        <p>Expected CSV format (hiragana and kanji are optional):</p>
-        <pre className="text-xs bg-muted p-2 rounded mt-1">
-          {`kata name,style,series,hiragana,kanji\nHeian Shodan,Shotokan,Heian,へいあんしょだん,平安初段`}
-        </pre>
-      </div>
       <Input
         type="file"
-        name="kata_csv"
+        name="stance_csv"
         accept=".csv"
         onChange={handleFileChange}
         className="mt-4"
       />
       <Button onClick={handleParseFile} disabled={!file} className="mt-2">
-        Parse CSV
+        Parse CSV file
       </Button>
+
       {error && <div className="text-sm text-destructive">{error}</div>}
 
-      {validatedParsedRows.length > 0 && validCount > 0 && (
-        <Button onClick={handleImport} disabled={isImporting}>
-          {isImporting ? "Importing..." : `Import ${validCount} Katas`}
-        </Button>
-      )}
+      {validatedParsedRows.length > 0 &&
+        validatedParsedRows.filter((r) => r.isValid).length > 0 && (
+          <Button onClick={handleImport} disabled={isImporting}>
+            {isImporting
+              ? "Importing..."
+              : `Import ${validatedParsedRows.filter((r) => r.isValid).length} Stances`}
+          </Button>
+        )}
 
       {validatedParsedRows.length > 0 && (
         <div className="mt-4 space-y-4">
           <p>
-            Parsed {validatedParsedRows.length} rows: {validCount} valid,{" "}
-            {invalidCount} invalid
+            Parsed {validatedParsedRows.length} rows:{" "}
+            {validatedParsedRows.filter((r) => r.isValid).length} valid,{" "}
+            {validatedParsedRows.filter((r) => !r.isValid).length} invalid
           </p>
-          <pre className="text-xs bg-muted p-2 rounded overflow-auto max-h-96">
+          <pre className="text-xs bg-muted p-2 rounded overflow-auto">
             {JSON.stringify(validatedParsedRows, null, 2)}
           </pre>
         </div>

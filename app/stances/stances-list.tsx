@@ -93,15 +93,6 @@ export function StancesList({ stances }: StancesListProps) {
               </CollapsibleTrigger>
               <CollapsibleContent className="px-4">
                 <div className="space-y-4">
-                  {!selectedStance && (
-                    <div className="flex justify-end">
-                      <Button asChild variant="link" size="sm">
-                        <Link href="/stances/upload">
-                          Batch upload multiple stances with CSV file
-                        </Link>
-                      </Button>
-                    </div>
-                  )}
                   <StanceForm stance={selectedStance} onCancel={handleCancel} />
                 </div>
               </CollapsibleContent>

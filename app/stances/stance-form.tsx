@@ -88,6 +88,11 @@ export function StanceForm({ stance, onCancel }: StanceFormProps) {
         <Button type="submit" disabled={isPending}>
           {isEditing ? "Update Stance" : "Add Stance"}
         </Button>
+        {!isEditing && (
+          <Button type="button" variant="outline" asChild>
+            <a href="/stances/upload">Bulk Upload CSV</a>
+          </Button>
+        )}
         {isEditing && onCancel && (
           <Button
             type="button"
