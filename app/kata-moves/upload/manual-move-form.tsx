@@ -13,6 +13,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
+  ActiveSideLabel,
+  BreathLabel,
+  DirectionLabel,
+  HipPositionLabel,
+  LeadFootLabel,
+  MoveTimingLabel,
+  SnapThrustLabel,
+  SpeedLabel,
+  TechniqueLevelLabel,
+  toFilterOptions,
+} from "@/lib/enum-labels";
+import {
   validateMoveForm,
   type MoveFormState,
   type ValidatedMoveData,
@@ -164,8 +176,9 @@ export function MoveForm({ stances, techniques, initialValues, onAdd }: Props) {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="NONE">None</SelectItem>
-              <SelectItem value="SIMULTANEOUS">Simultaneous</SelectItem>
-              <SelectItem value="SEQUENTIAL">Sequential</SelectItem>
+              {toFilterOptions(MoveTimingLabel).map(({ value, label }) => (
+                <SelectItem key={value} value={value}>{label}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
@@ -179,19 +192,8 @@ export function MoveForm({ stances, techniques, initialValues, onAdd }: Props) {
               <SelectValue placeholder="Select..." />
             </SelectTrigger>
             <SelectContent>
-              {[
-                ["N", "North"],
-                ["S", "South"],
-                ["E", "East"],
-                ["W", "West"],
-                ["NE", "Northeast"],
-                ["NW", "Northwest"],
-                ["SE", "Southeast"],
-                ["SW", "Southwest"],
-              ].map(([v, l]) => (
-                <SelectItem key={v} value={v}>
-                  {l}
-                </SelectItem>
+              {toFilterOptions(DirectionLabel).map(({ value, label }) => (
+                <SelectItem key={value} value={value}>{label}</SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -209,8 +211,9 @@ export function MoveForm({ stances, techniques, initialValues, onAdd }: Props) {
               <SelectValue placeholder="Select..." />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="LEFT">Left</SelectItem>
-              <SelectItem value="RIGHT">Right</SelectItem>
+              {toFilterOptions(LeadFootLabel).map(({ value, label }) => (
+                <SelectItem key={value} value={value}>{label}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
@@ -224,9 +227,9 @@ export function MoveForm({ stances, techniques, initialValues, onAdd }: Props) {
               <SelectValue placeholder="Select..." />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="HANMI">Hanmi</SelectItem>
-              <SelectItem value="SHOMEN">Shomen</SelectItem>
-              <SelectItem value="GYAKUHANMI">Gyaku Hanmi</SelectItem>
+              {toFilterOptions(HipPositionLabel).map(({ value, label }) => (
+                <SelectItem key={value} value={value}>{label}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
@@ -243,10 +246,9 @@ export function MoveForm({ stances, techniques, initialValues, onAdd }: Props) {
               <SelectValue placeholder="Select..." />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="LEFT">Left</SelectItem>
-              <SelectItem value="RIGHT">Right</SelectItem>
-              <SelectItem value="BOTH">Both</SelectItem>
-              <SelectItem value="NEITHER">Neither</SelectItem>
+              {toFilterOptions(ActiveSideLabel).map(({ value, label }) => (
+                <SelectItem key={value} value={value}>{label}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
@@ -260,10 +262,9 @@ export function MoveForm({ stances, techniques, initialValues, onAdd }: Props) {
               <SelectValue placeholder="Select..." />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="FAST">Fast</SelectItem>
-              <SelectItem value="SLOW">Slow</SelectItem>
-              <SelectItem value="FAST_SLOW">Fast → Slow</SelectItem>
-              <SelectItem value="SLOW_FAST">Slow → Fast</SelectItem>
+              {toFilterOptions(SpeedLabel).map(({ value, label }) => (
+                <SelectItem key={value} value={value}>{label}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
@@ -280,8 +281,9 @@ export function MoveForm({ stances, techniques, initialValues, onAdd }: Props) {
               <SelectValue placeholder="Select..." />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="SNAP">Snap</SelectItem>
-              <SelectItem value="THRUST">Thrust</SelectItem>
+              {toFilterOptions(SnapThrustLabel).map(({ value, label }) => (
+                <SelectItem key={value} value={value}>{label}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
@@ -295,10 +297,9 @@ export function MoveForm({ stances, techniques, initialValues, onAdd }: Props) {
               <SelectValue placeholder="Select..." />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="GEDAN">Gedan (Lower)</SelectItem>
-              <SelectItem value="CHUDAN">Chudan (Middle)</SelectItem>
-              <SelectItem value="JODAN">Jodan (Upper)</SelectItem>
-              <SelectItem value="GEDAN_JODAN">Gedan & Jodan</SelectItem>
+              {toFilterOptions(TechniqueLevelLabel).map(({ value, label }) => (
+                <SelectItem key={value} value={value}>{label}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
@@ -315,9 +316,9 @@ export function MoveForm({ stances, techniques, initialValues, onAdd }: Props) {
               <SelectValue placeholder="Select..." />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="IN">Inhale</SelectItem>
-              <SelectItem value="OUT">Exhale</SelectItem>
-              <SelectItem value="IN_OUT">Inhale & Exhale</SelectItem>
+              {toFilterOptions(BreathLabel).map(({ value, label }) => (
+                <SelectItem key={value} value={value}>{label}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
