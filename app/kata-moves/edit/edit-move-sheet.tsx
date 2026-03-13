@@ -38,15 +38,15 @@ import {
   type MoveFormState,
 } from "@/lib/validation/kata-moves";
 import {
-  DirectionLabel,
-  LeadFootLabel,
-  HipPositionLabel,
   ActiveSideLabel,
-  SpeedLabel,
-  SnapThrustLabel,
-  TechniqueLevelLabel,
   BreathLabel,
+  DirectionLabel,
+  HipPositionLabel,
+  LeadFootLabel,
   MoveTimingLabel,
+  SnapThrustLabel,
+  SpeedLabel,
+  TechniqueLevelLabel,
   toFilterOptions,
 } from "@/lib/enum-labels";
 

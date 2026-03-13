@@ -37,16 +37,16 @@ import {
 
 import type { MoveWithRelations } from "./columns";
 import {
-  TechniqueTypeLabel,
-  MoveTimingLabel,
-  DirectionLabel,
-  LeadFootLabel,
-  HipPositionLabel,
   ActiveSideLabel,
-  SpeedLabel,
-  SnapThrustLabel,
-  TechniqueLevelLabel,
   BreathLabel,
+  DirectionLabel,
+  HipPositionLabel,
+  LeadFootLabel,
+  MoveTimingLabel,
+  SnapThrustLabel,
+  SpeedLabel,
+  TechniqueLevelLabel,
+  TechniqueTypeLabel,
   toFilterOptions,
 } from "@/lib/enum-labels";
 
