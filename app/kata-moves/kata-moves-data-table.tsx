@@ -36,6 +36,19 @@ import {
 } from "@/components/ui/table";
 
 import type { MoveWithRelations } from "./columns";
+import {
+  TechniqueTypeLabel,
+  MoveTimingLabel,
+  DirectionLabel,
+  LeadFootLabel,
+  HipPositionLabel,
+  ActiveSideLabel,
+  SpeedLabel,
+  SnapThrustLabel,
+  TechniqueLevelLabel,
+  BreathLabel,
+  toFilterOptions,
+} from "@/lib/enum-labels";
 
 interface KataMovesDataTableProps {
   columns: ColumnDef<MoveWithRelations, unknown>[];
@@ -44,63 +57,16 @@ interface KataMovesDataTableProps {
 
 type FilterOption = { value: string; label: string };
 
-const techniqueTypeOptions: FilterOption[] = [
-  { value: "BLOCK", label: "Block" },
-  { value: "PUNCH", label: "Punch" },
-  { value: "KICK", label: "Kick" },
-  { value: "STRIKE", label: "Strike" },
-  { value: "PREP", label: "Prep" },
-];
-const timingOptions: FilterOption[] = [
-  { value: "SIMULTANEOUS", label: "Simultaneous" },
-  { value: "SEQUENTIAL", label: "Sequential" },
-];
-const directionOptions: FilterOption[] = [
-  { value: "N", label: "North" },
-  { value: "S", label: "South" },
-  { value: "E", label: "East" },
-  { value: "W", label: "West" },
-  { value: "NE", label: "Northeast" },
-  { value: "NW", label: "Northwest" },
-  { value: "SE", label: "Southeast" },
-  { value: "SW", label: "Southwest" },
-];
-const techniqueLevelOptions: FilterOption[] = [
-  { value: "GEDAN", label: "Gedan (Lower)" },
-  { value: "CHUDAN", label: "Chudan (Middle)" },
-  { value: "JODAN", label: "Jodan (Upper)" },
-  { value: "GEDAN_JODAN", label: "Gedan & Jodan" },
-];
-const leadFootOptions: FilterOption[] = [
-  { value: "LEFT", label: "Left" },
-  { value: "RIGHT", label: "Right" },
-];
-const hipOptions: FilterOption[] = [
-  { value: "HANMI", label: "Hanmi" },
-  { value: "SHOMEN", label: "Shomen" },
-  { value: "GYAKUHANMI", label: "Gyaku Hanmi" },
-];
-const activeSideOptions: FilterOption[] = [
-  { value: "LEFT", label: "Left" },
-  { value: "RIGHT", label: "Right" },
-  { value: "BOTH", label: "Both" },
-  { value: "NEITHER", label: "Neither" },
-];
-const speedOptions: FilterOption[] = [
-  { value: "FAST", label: "Fast" },
-  { value: "SLOW", label: "Slow" },
-  { value: "FAST_SLOW", label: "Fast → Slow" },
-  { value: "SLOW_FAST", label: "Slow → Fast" },
-];
-const snapThrustOptions: FilterOption[] = [
-  { value: "SNAP", label: "Snap" },
-  { value: "THRUST", label: "Thrust" },
-];
-const breathOptions: FilterOption[] = [
-  { value: "IN", label: "Inhale" },
-  { value: "OUT", label: "Exhale" },
-  { value: "IN_OUT", label: "In → Out" },
-];
+const techniqueTypeOptions = toFilterOptions(TechniqueTypeLabel);
+const timingOptions = toFilterOptions(MoveTimingLabel);
+const directionOptions = toFilterOptions(DirectionLabel);
+const techniqueLevelOptions = toFilterOptions(TechniqueLevelLabel);
+const leadFootOptions = toFilterOptions(LeadFootLabel);
+const hipOptions = toFilterOptions(HipPositionLabel);
+const activeSideOptions = toFilterOptions(ActiveSideLabel);
+const speedOptions = toFilterOptions(SpeedLabel);
+const snapThrustOptions = toFilterOptions(SnapThrustLabel);
+const breathOptions = toFilterOptions(BreathLabel);
 
 function ColumnFilter({
   table,
