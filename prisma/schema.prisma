@@ -95,6 +95,7 @@ enum Direction {
 enum LeadFoot {
   LEFT
   RIGHT
+  NEITHER
 }
 
 enum HipPosition {
