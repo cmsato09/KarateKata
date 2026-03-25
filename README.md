@@ -2,7 +2,7 @@
 
 A comprehensive reference database for karate techniques, stances, and kata movements. This application provides an organized catalog of traditional karate elements for practitioners and instructors.
 
-**Live App:** [kata-db.vercel.app](https://kata-db.vercel.app)
+**Live App:** [karate-kata.vercel.app](https://karate-kata.vercel.app)
 
 ## Features
 
