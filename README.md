@@ -13,6 +13,45 @@ A comprehensive reference database for karate techniques, stances, and kata move
 - **Authentication** - Secure sign-in required for adding or editing data (view-only access available publicly)
 - **Bulk CSV Upload** - Import multiple techniques, stances, or kata moves efficiently
 
+## Local Development
+
+This project uses Docker for local development with a Next.js app and a PostgreSQL database.
+
+### Prerequisites
+
+- Open [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- Login to Docker Hardened Image registry:
+  ```bash
+  docker login dhi.io
+  ```
+
+### Setup
+
+1. Clone the repository
+   ```bash
+   git clone https://github.com/cmsato09/kata-db.git
+   cd kata-db
+   ```
+
+2. Build and start the containers:
+   ```bash
+   docker compose up --build --watch
+   ```
+
+The app will be available at [http://localhost:3000](http://localhost:3000).
+
+On subsequent runs (no changes to `Dockerfile.dev`):
+```bash
+docker compose up --watch
+```
+
+### Stopping
+
+```bash
+docker compose down          # stop containers (database data is preserved)
+docker compose down -v       # stop containers and delete database data
+```
+
 ## Tech Stack
 
 - **Framework:** [Next.js 16](https://nextjs.org) (React, App Router)
